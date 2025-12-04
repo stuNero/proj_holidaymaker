@@ -1,6 +1,6 @@
 # Standups
 ## 2025-12-03
-### Afternoon
+### Eftermiddag
 #### Max: 
 - Avslutat 'See Package Detail' User story
 - Gjort en Program Flow Chart
@@ -26,21 +26,16 @@
 - Gick genom alla bdds och dubbel kollade så att de är i rätt column i projekt board.
 - Samlade alla wireframe i excalidra.
 
-
-
 ## 2025-12-04
-### Morning
+### Morgon
 #### Max:
 - Kommer att gör om Flow chart
 - Ska göra Billing adress
 - Vill börja Coda, dvs att lära sig hur vi kan börja coda.
 
-
 #### Jacob:
 - Har gjort BDD och Wireframes
 - Ska göra om Wireframe för paymentpage
-  
-
 
 #### Pierino
 - Har gått genom postman och c# med gruppen
@@ -48,7 +43,6 @@
 - Organiserat github projekt board
 - Vill reviewa alla P0 userstories
 - Parata ihop oss hur databasen ska se ut innan vi börjar coda
-
 
 #### Tanya
 - Lärde sig hur man använder github
@@ -64,5 +58,29 @@
 - Ska diskutera om hur vi kan börja coda på riktigt.
 - Ta upp wireframe problem. 
 
-
-
+### Eftermiddag
+#### Jacob
+- Arbetat på Book Package User Story, expanderat med BDD scenarios
+- Ska lägga till BDD Confirm button till Payment Details
+- Problem: Generiskt scenario för Main Page/ Profile Page knapp över alla webbsidor
+#### Amir
+- Gått igenom Entiteter för programmet
+- Skapat prel. ER diagram
+- Organiserat projektsidan
+- Ska göra wireframe för Log Out User Story
+- kanske sjuk :(  
+#### Max
+- Gjort BDDs och wireframes till User Detail och Billing Address i Booking Page
+- Tog bort Billing Address user story, la in dens BDDs i Book Package User story
+- Har gjort om flow chart
+- Lagt till planning mapp i repot med programmets flow chart i
+- Samma problem som Jacob
+#### Pierino
+- Hjälpt Jacob med BDD scenarios
+- Problem: BDD scenarios/ User story's relation till vad man faktiskt kan göra:
+t.ex. ska man göra BDD till något som man vet inte kommer att kodas.
+- Vill göra färdigt alla BDD scenarios
+- Vill uppdateras med vad Tanya, Amir har gjort
+#### Tanya
+- Har samarbetat med Amir med ER diagram och Entiteter för programmet
+- Ska hjälpa Amir med Log Out User story
