@@ -1,5 +1,5 @@
-# Standups
-## 2025-12-03
+# 2025-12-03
+## Standups
 ### Eftermiddag
 #### Max: 
 - Avslutat 'See Package Detail' User story.
@@ -25,7 +25,8 @@
 - Gick genom alla bdds och dubbel kollade så att de är i rätt column i projekt board.
 - Samlade alla wireframe i excalidra.
 
-## 2025-12-04
+# 2025-12-04
+## Standups
 ### Morgon
 #### Max:
 - Kommer att gör om Flow chart.
@@ -80,3 +81,30 @@
 - Har samarbetat med Amir med ER diagram och Entiteter för programmet.
 - Ska hjälpa Amir med Log Out User story.
 
+# 2025-12-05
+## Standups
+### Förmiddag
+#### Max
+- Har gjort en ny page: Reciept Page
+- Gjort massa wireframes för Booking Page
+- Jag vill gå igenom databasen och planera upp den
+- -uppdaterat flow chart i planning mappen på repot
+#### Pierino
+- Samarbetade på wireframes BDDs med Max
+- Gjort User Epic med mindre User Stories inuti, där varje user story har BDD scenarios i Book Package feature
+- vill diskutera om User Stories markerade med Question label
+- Vill försöka göra saker i kod
+#### Amir 
+- Igår modererade backlog så att allt stämde med sina labels
+- brainstormade entiteter och tables med Tanya, kollade OWASP
+- Ska kolla hur databasen ska vara upplagd och integrering med kod
+- Vill checka av med Manne om hur våran progress är
+#### Tanya
+- Samarbetat med Amir, gick igenom backlog, gick igenom databasen
+- Samarbetat med Jacob, utvecklat databasen mer
+- Gjort wireframes för Create Account
+- Vill gå igenom det Manuel föreläst
+#### Jacob
+- Igår samarbetade med Pierino och Max med BDD scenarios
+- Samarbetat med Tanya på databasens struktur
+- Vill gå igenom databas strukturen, har idéer om strukturen.
