@@ -108,3 +108,52 @@
 - Igår samarbetade med Pierino och Max med BDD scenarios
 - Samarbetat med Tanya på databasens struktur
 - Vill gå igenom databas strukturen, har idéer om strukturen.
+
+  ### Eftermiddag
+  #### Max
+  - Har gjort:
+  - Om priotera issues
+    
+  - Ska göra:
+  - Vill börja koda på måndag
+ 
+
+
+  #### Pierino
+  - Har gjort:
+  - Om priotera issues
+  - Gjort BDDs och respektive wireframes
+    
+  - Ska göra:
+  - Priotera om våra issues
+  - Diskutera om databasen
+  - Koda på c#
+    
+  #### Amir
+  - Har gjort:
+  - Prioterat om våra issues
+  - Skapat wireframe på Sök filter
+  - Diskuterat Databas upplägget
+ 
+  - Ska göra:
+  - Komma överens om hur vill vi ha vår databas, på c# eller i datagrip
+  - Ska gå genom mannes kod session, göra en code along på egen hand.
+  
+  #### Tanya
+  - Har gjort:
+  - Lärt sig hur mockaro funkar.
+  - Dubbel kolla sina wireframes så att de stämmer.
+ 
+  - Ska göra:
+  - Gå genom kurs material för att få bättre förståelse.
+  - Vill gå genom er diagramen på måndag.
+
+  #### Jacob
+  - Har gjort:
+  - Diskuterat om prioreteringar i gruppen.
+  - Laggt till extra tabeller i er diagrammen.
+ 
+  - Ska göra:
+  - Diskutera hur vi kopplar samman allting.
+  - Börja bygga databasen på riktigt.
+    
