@@ -194,8 +194,64 @@
 
 
 
+### Förmiddag
+#### Max
+- Har gjort:
+- Diskuterat databasen och har tänkt hur databasen ska vara på egenhand.
+
+
+- Ska göra:
+- Göra klart database.
+
+
+ #### Pierino
+ - Har gjort:
+ - Diskuterat om databasen. 
+
+ - Ska göra:
+ - Vill fortsätta med databasen.
+ - Vill kolla på kode exempel efter databasen.
+
+
+  #### Amir
+- Har gjort:
+- Brainstormat hur vi vill att databasen ska vara.
+- Byggt preliminära tabller i erdraw.io.
+
+- Ska gjora:
+- Hjälpa till med databasen så att vi är nöjda.
+- Restan av dagen vill jag helst hålla på exprimentra med koden.
+
+
+  #### Tanya
+- Har gjort:
+- Har lyssnat på hur vi tänker kring databasen.
+
+- Ska göra:
+- Bygga färding wireframe för filter room.
+- Lära sig om databasen på egenhand.
 
 
 
+  #### Jacob
+- Har gjort:
+- Diskuterat databasens uppbyggnad med gruppen.
+
+- Ska göra:
+- Bygga klart databasen.
+
+
+
+
+
+
+
+
+
+
+
+
+ 
     
+
 
