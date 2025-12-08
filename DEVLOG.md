@@ -193,7 +193,7 @@
 
 
 
-
+# 2025-12-08
 ### Förmiddag
 #### Max
 - Har gjort:
@@ -240,18 +240,17 @@
 - Ska göra:
 - Bygga klart databasen.
 
-
-
-
-
-
-
-
-
-
-
-
- 
-    
-
-
+## Code Review
+### Eftermiddag
+#### Tanya
+- Arbetat på wireframe för filter rooms
+#### Amir
+- Experimenterat med Create/Post/Get för packages tabellen i C#
+- Gjort Log Out för Login klassen i demot
+#### Pierino
+- arbetat på Log Out för Logout klassen i demot
+#### Max 
+- Amir har förklarat User/login systemet i demot, max har förstått
+- troubleshootat demo koden för sessions
+#### Jacob
+- Försökte testa databasen
