@@ -156,4 +156,46 @@
   - Ska göra:
   - Diskutera hur vi kopplar samman allting.
   - Börja bygga databasen på riktigt.
+
+ 
+# 2025-12-05
+## Standups
+### Förmiddag
+#### Max
+- Vi ska gå genom vad vi ska göra idag.
+- Vill gärna börja koda idag, kashe göra databasen tillsammans.
+
+
+ #### Pierino
+ - Om prioritera våra P0 userstories.
+ - Prata om hur databasen ska se ut.
+ - Vill helst ha lite egen tid för att gå genom och exprimentera med kode exempel.
+
+
+  #### Amir
+  - Gå geonom prioritering av P0 userstories.
+  - Jag vill gärna att nu på förmiddagen vi får lite tid att bara exprimentera och leka med kod exempel, lite egenhand.
+  - Identifiera databas tabbler som vi vill ha.
+
+
+
+   #### Tanya
+   - Vill göra samma som oss andra.
+   - Vill prata mer om databasen.
+   - Gå igenom REST API för att känna sig trygg hur den funkar.
+
+
+
+   #### Jacob
+   - Vill komma igång med databasen.
+   - Vill gärna leka lite med kod exempel för att känna sig trygg med alla komando.
+   - Vill gärna bygga databasen så fort som möjligt.
+
+
+
+
+
+
+
     
+
