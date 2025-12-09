@@ -156,4 +156,101 @@
   - Ska göra:
   - Diskutera hur vi kopplar samman allting.
   - Börja bygga databasen på riktigt.
-    
+
+ 
+# 2025-12-05
+## Standups
+### Förmiddag
+#### Max
+- Vi ska gå genom vad vi ska göra idag.
+- Vill gärna börja koda idag, kashe göra databasen tillsammans.
+
+
+ #### Pierino
+ - Om prioritera våra P0 userstories.
+ - Prata om hur databasen ska se ut.
+ - Vill helst ha lite egen tid för att gå genom och exprimentera med kode exempel.
+
+
+  #### Amir
+  - Gå geonom prioritering av P0 userstories.
+  - Jag vill gärna att nu på förmiddagen vi får lite tid att bara exprimentera och leka med kod exempel, lite egenhand.
+  - Identifiera databas tabbler som vi vill ha.
+
+
+
+   #### Tanya
+   - Vill göra samma som oss andra.
+   - Vill prata mer om databasen.
+   - Gå igenom REST API för att känna sig trygg hur den funkar.
+
+
+
+   #### Jacob
+   - Vill komma igång med databasen.
+   - Vill gärna leka lite med kod exempel för att känna sig trygg med alla komando.
+   - Vill gärna bygga databasen så fort som möjligt.
+
+
+
+# 2025-12-08
+### Förmiddag
+#### Max
+- Har gjort:
+- Diskuterat databasen och har tänkt hur databasen ska vara på egenhand.
+
+
+- Ska göra:
+- Göra klart database.
+
+
+ #### Pierino
+ - Har gjort:
+ - Diskuterat om databasen. 
+
+ - Ska göra:
+ - Vill fortsätta med databasen.
+ - Vill kolla på kode exempel efter databasen.
+
+
+  #### Amir
+- Har gjort:
+- Brainstormat hur vi vill att databasen ska vara.
+- Byggt preliminära tabller i erdraw.io.
+
+- Ska gjora:
+- Hjälpa till med databasen så att vi är nöjda.
+- Restan av dagen vill jag helst hålla på exprimentra med koden.
+
+
+  #### Tanya
+- Har gjort:
+- Har lyssnat på hur vi tänker kring databasen.
+
+- Ska göra:
+- Bygga färding wireframe för filter room.
+- Lära sig om databasen på egenhand.
+
+
+
+  #### Jacob
+- Har gjort:
+- Diskuterat databasens uppbyggnad med gruppen.
+
+- Ska göra:
+- Bygga klart databasen.
+
+## Code Review
+### Eftermiddag
+#### Tanya
+- Arbetat på wireframe för filter rooms
+#### Amir
+- Experimenterat med Create/Post/Get för packages tabellen i C#
+- Gjort Log Out för Login klassen i demot
+#### Pierino
+- arbetat på Log Out för Logout klassen i demot
+#### Max 
+- Amir har förklarat User/login systemet i demot, max har förstått
+- troubleshootat demo koden för sessions
+#### Jacob
+- Försökte testa databasen
