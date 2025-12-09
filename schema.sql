@@ -1,132 +1,127 @@
+```sql
+
 CREATE DATABASE IF NOT EXISTS holidaymaker;
 
 USE holidaymaker;
 
-CREATE TABLE IF NOT EXISTS Users
+CREATE TABLE IF NOT EXISTS users
 (
     id          INT PRIMARY KEY AUTO_INCREMENT,
-    first_name  VARCHAR(255),
-    last_name   VARCHAR(255),
-    email       VARCHAR(255),
-    password    VARCHAR(255),
-    role        VARCHAR(255)
+    first_name  VARCHAR(255) NOT NULL,
+    last_name   VARCHAR(255) NOT NULL,
+    email       VARCHAR(254) NOT NULL UNIQUE,
+    password    VARCHAR(128),
+    role        ENUM('admin','customer') DEFAULT('customer')
 );
-CREATE TABLE IF NOT EXISTS Cuisine
+
+CREATE TABLE IF NOT EXISTS cuisines
 (
     id      INT PRIMARY KEY AUTO_INCREMENT,
-    name    VARCHAR(255)
+    name    VARCHAR(255) UNIQUE
 );
-CREATE TABLE IF NOT EXISTS Country
+CREATE TABLE IF NOT EXISTS countries
 (
     id      INT PRIMARY KEY AUTO_INCREMENT,
-    name    VARCHAR(255),
-    cuisine INT,
-    FOREIGN KEY (cuisine) REFERENCES Cuisine(id)
+    name    VARCHAR(255) UNIQUE,
+    cuisine INT NOT NULL REFERENCES cuisines(id)
 );
-CREATE TABLE IF NOT EXISTS City
-(
-    id      INT PRIMARY KEY AUTO_INCREMENT,
-    name    VARCHAR(255),
-    country INT,
-    FOREIGN KEY (country) REFERENCES Country(id)
-);
-CREATE TABLE IF NOT EXISTS Accommodation
+CREATE TABLE IF NOT EXISTS cities
 (
     id      INT PRIMARY KEY AUTO_INCREMENT,
     name    VARCHAR(255),
-    city    INT,
-    FOREIGN KEY (city) REFERENCES City(id)
+    country INT NOT NULL REFERENCES countries(id)
 );
-CREATE TABLE IF NOT EXISTS Package
+CREATE TABLE IF NOT EXISTS accommodations
 (
     id      INT PRIMARY KEY AUTO_INCREMENT,
     name    VARCHAR(255),
-    description TEXT,
-    price DECIMAL(10,2)
+    city    INT NOT NULL REFERENCES cities(id),
+    type ENUM('hotel', 'motel', 'hostel') DEFAULT ('hotel'),
+    UNIQUE (city, name)
 );
-CREATE TABLE IF NOT EXISTS AccommodationPerPackage
+CREATE TABLE IF NOT EXISTS packages
 (
-    accommodation INT,
-    package INT,
-    FOREIGN KEY (accommodation) REFERENCES Accommodation(id),
-    FOREIGN KEY (package) REFERENCES Package(id)
+    id      INT PRIMARY KEY AUTO_INCREMENT,
+    name    VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    price DECIMAL(10,2) NOT NULL
 );
-CREATE TABLE IF NOT EXISTS TransportType
+CREATE TABLE IF NOT EXISTS accommodation_per_package
+(
+    accommodation INT NOT NULL REFERENCES accommodations(id),
+    package INT NOT NULL REFERENCES packages(id)
+);
+CREATE TABLE IF NOT EXISTS transport_types
 (
   id INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255) UNIQUE
 );
-CREATE TABLE IF NOT EXISTS Transport
+CREATE TABLE IF NOT EXISTS transports
 (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    type INT,
-    start_city INT,
-    end_city INT,
+    type INT NOT NULL REFERENCES transport_types(id),
+    start_city INT NOT NULL REFERENCES cities(id),
+    end_city INT NOT NULL REFERENCES cities(id),
     company VARCHAR(255),
-    price decimal(10,2),
-    FOREIGN KEY (type) REFERENCES TransportType(id),
-    FOREIGN KEY (start_city) REFERENCES City(id),
-    FOREIGN KEY (end_city) REFERENCES City(id)
+    price decimal(10,2) NOT NULL,
+    start_datetime DATETIME NOT NULL,
+    end_datetime DATETIME NOT NULL
 );
-CREATE TABLE IF NOT EXISTS TransportPerPackage
+CREATE TABLE IF NOT EXISTS transport_per_package
 (
-    transport INT,
-    package   INT,
-    FOREIGN KEY (transport) REFERENCES Transport(id),
-    FOREIGN KEY (package) REFERENCES Package(id)
+    transport INT NOT NULL REFERENCES transports(id),
+    package   INT NOT NULL REFERENCES packages(id),
+    UNIQUE (transport, package)
 );
-CREATE TABLE IF NOT EXISTS Payment
+CREATE TABLE IF NOT EXISTS payments
 (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    amount DECIMAL(10,2),
-    method VARCHAR(255),
-    payment_time DATETIME
+    amount DECIMAL(10,2) NOT NULL,
+    payment_time TIMESTAMP
 );
-CREATE TABLE IF NOT EXISTS Booking
+CREATE TABLE IF NOT EXISTS bookings
 (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    payment INT,
-    user INT,
-    package INT,
-    start_time DATETIME,
-    end_time DATETIME,
-    total_cost DECIMAL(10,2),
-    UNIQUE (id, user),
-    FOREIGN KEY (payment) REFERENCES Payment(id),
-    FOREIGN KEY (user) REFERENCES Users(id),
-    FOREIGN KEY (package) REFERENCES Package(id)
+    payment INT NOT NULL REFERENCES payments(id),
+    user INT NOT NULL REFERENCES users(id),
+    package INT NOT NULL REFERENCES packages(id),
+    UNIQUE (id, user)
 );
-CREATE TABLE IF NOT EXISTS Rooms
+CREATE TABLE IF NOT EXISTS rooms
 (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255),
-    sleep_spots INT,
-    accommodation INT,
-    FOREIGN KEY (accommodation) REFERENCES Accommodation(id)
+    name VARCHAR(255) NOT NULL,
+    sleep_spots INT NOT NULL,
+    accommodation INT NOT NULL REFERENCES accommodations(id)
 );
-CREATE TABLE IF NOT EXISTS RoomProperties
+CREATE TABLE IF NOT EXISTS booked_rooms
+(
+    rooms int NOT NULL REFERENCES rooms(id),
+    start_datetime DATETIME,
+    end_datetime DATETIME,
+    UNIQUE(rooms, start_datetime, end_datetime)
+);
+
+CREATE TABLE IF NOT EXISTS room_properties
 (
   id INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255) UNIQUE
 );
-CREATE TABLE IF NOT EXISTS PropertiesPerRoom
+CREATE TABLE IF NOT EXISTS properties_per_room
 (
-    room INT,
-    property INT,
-    UNIQUE (room,property),
-    FOREIGN KEY (room) REFERENCES Rooms(id),
-    FOREIGN KEY (property) REFERENCES RoomProperties(id)
+    room INT NOT NULL REFERENCES rooms(id),
+    property INT NOT NULL REFERENCES rooms_properties(id),
+    UNIQUE (room,property)
 );
-CREATE TABLE IF NOT EXISTS Amenities
+CREATE TABLE IF NOT EXISTS amenities
 (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) UNIQUE
 );
-CREATE TABLE IF NOT EXISTS AmenitiesPerAccommodation
+CREATE TABLE IF NOT EXISTS amenities_per_accommodation
 (
-    amenity INT,
-    accommodation INT,
-    UNIQUE (amenity,accommodation),
-    FOREIGN KEY (amenity) REFERENCES Amenities(id),
-    FOREIGN KEY (accommodation) REFERENCES Accommodation(id)
+    amenity INT NOT NULL REFERENCES amenities(id),
+    accommodation INT NOT NULL REFERENCES accommodations(id),
+    UNIQUE (amenity,accommodation)
 )
+``` 
