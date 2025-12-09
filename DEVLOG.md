@@ -301,3 +301,7 @@
 - Fråga manne om vad vi ska prioritera.
 - Vill gärna kolla på vad max har gjort med schemas.
 - Exprimentera mer med coden.
+
+
+## Code Review
+- Vi har reviewat repo strukturen, databasen och klassar i c sharp. 
