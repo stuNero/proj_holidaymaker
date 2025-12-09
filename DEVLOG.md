@@ -254,3 +254,50 @@
 - troubleshootat demo koden för sessions
 #### Jacob
 - Försökte testa databasen
+
+
+# 2025-12-09
+## Stadnup
+### Eftermiddag
+#### Max
+- Har gjort:
+- Har gjort en schema och lagt den på github.
+
+- Ska göra:
+- Ska kolla så att förenklad schema är korrekt.
+
+
+
+#### Pierino
+- Har gjort:
+- code along med manne.
+
+- Ska göra:
+- Vill forsätta exprimentera med coden om det är möjligt.
+- Vill prata med manne om våra prioriteringar, Scrum master ska göra detta.
+
+
+#### Tanya
+- Har gjort:
+- Forsätt jobba med wireframe.
+
+- Ska göra:
+- Vill gå genom allting om vi hinner.
+
+  
+#### Jacob
+- Har gjort:
+- Har gjort code along med manne.
+
+- Ska göra:
+- Exprimentera med cookies i c sharp.
+
+#### Amir
+- Har gjrot:
+- Exprimenterat och skapat package och room tabeller i c sharp.
+- har gjort code along med Manne.
+
+- Ska göra:
+- Fråga manne om vad vi ska prioritera.
+- Vill gärna kolla på vad max har gjort med schemas.
+- Exprimentera mer med coden.
