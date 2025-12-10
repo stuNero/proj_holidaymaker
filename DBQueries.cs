@@ -2,9 +2,21 @@ namespace server;
 
 static class DBQueries
 {
+
+    static public string DropAllTable()
+    {
+        string query =
+        """
+    SELECT GROUP_CONCAT('DROP TABLE IF EXISTS ', table_name, ';') 
+    FROM information_schema.tables 
+    WHERE table_schema = 'Holidaymaker';   
+
+    """;
+        return query;
+    }
     static public string CreateUsersTable()
     {
-        string query = 
+        string query =
         """
             CREATE TABLE IF NOT EXISTS users
             (
@@ -20,7 +32,7 @@ static class DBQueries
     }
     static public string CreateCuisinesTable()
     {
-        string query = 
+        string query =
         """
             CREATE TABLE IF NOT EXISTS cuisines
             (
@@ -32,7 +44,7 @@ static class DBQueries
     }
     static public string CreateCitiesTable()
     {
-        string query = 
+        string query =
         """
             CREATE TABLE IF NOT EXISTS cities
             (
@@ -45,7 +57,7 @@ static class DBQueries
     }
     static public string CreateCountriesTable()
     {
-        string query = 
+        string query =
         """
             CREATE TABLE IF NOT EXISTS countries
             (
@@ -58,7 +70,7 @@ static class DBQueries
     }
     static public string CreateAccommodationsTable()
     {
-        string query = 
+        string query =
         """
             CREATE TABLE IF NOT EXISTS accommodations
             (
@@ -73,7 +85,7 @@ static class DBQueries
     }
     static public string CreatePackagesTable()
     {
-        string query = 
+        string query =
         """
             CREATE TABLE IF NOT EXISTS packages
             (
@@ -87,7 +99,7 @@ static class DBQueries
     }
     static public string CreateAccommodations_Per_PackageTable()
     {
-        string query = 
+        string query =
         """
             CREATE TABLE IF NOT EXISTS accommodation_per_package
             (
@@ -99,7 +111,7 @@ static class DBQueries
     }
     static public string CreateTransport_TypesTable()
     {
-        string query = 
+        string query =
         """
             CREATE TABLE IF NOT EXISTS transport_types
             (
@@ -111,7 +123,7 @@ static class DBQueries
     }
     static public string CreateTransportsTable()
     {
-        string query = 
+        string query =
         """
             CREATE TABLE IF NOT EXISTS transports
             (
@@ -129,7 +141,7 @@ static class DBQueries
     }
     static public string CreateTransports_Per_PackageTable()
     {
-        string query = 
+        string query =
         """
             CREATE TABLE IF NOT EXISTS transport_per_package
             (
@@ -142,7 +154,7 @@ static class DBQueries
     }
     static public string CreatePaymentTable()
     {
-        string query = 
+        string query =
         """
             CREATE TABLE IF NOT EXISTS payments
             (
@@ -155,7 +167,7 @@ static class DBQueries
     }
     static public string CreateBookingsTable()
     {
-        string query = 
+        string query =
         """
         CREATE TABLE IF NOT EXISTS bookings
         (
@@ -170,7 +182,7 @@ static class DBQueries
     }
     static public string CreateRoomsTable()
     {
-        string query = 
+        string query =
         """
             CREATE TABLE IF NOT EXISTS rooms
             (
@@ -184,7 +196,7 @@ static class DBQueries
     }
     static public string CreateBooked_RoomsTable()
     {
-        string query = 
+        string query =
         """
             CREATE TABLE IF NOT EXISTS booked_rooms
             (
@@ -198,7 +210,7 @@ static class DBQueries
     }
     static public string CreateRoom_PropertiesTable()
     {
-        string query = 
+        string query =
         """
             CREATE TABLE IF NOT EXISTS room_properties
             (
@@ -210,7 +222,7 @@ static class DBQueries
     }
     static public string CreateProperties_Per_RoomTable()
     {
-        string query = 
+        string query =
         """
             CREATE TABLE IF NOT EXISTS properties_per_room
             (
@@ -223,7 +235,7 @@ static class DBQueries
     }
     static public string CreateAmenitiesTable()
     {
-        string query = 
+        string query =
         """
             CREATE TABLE IF NOT EXISTS amenities
             (
@@ -235,7 +247,7 @@ static class DBQueries
     }
     static public string CreateAmenities_Per_AccommodationTable()
     {
-        string query = 
+        string query =
         """
             CREATE TABLE IF NOT EXISTS amenities_per_accommodation
             (
