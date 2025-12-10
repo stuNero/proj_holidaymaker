@@ -298,3 +298,42 @@
 - Vi har reviewat repo strukturen, databasen och klassar i c sharp.
 
 
+# 2025-12-10
+## Förmiddag
+### Standups
+#### Max
+- Har gjort:
+- Har gjort db query classen och laddan upp till github.
+- Ska göra:
+- Vill gärna göra login fuktionen, tillsammans.
+
+
+#### Pierino
+- Har gjort:
+- Har gjort review på databasen så allting stämmde.
+- Pratade med manne om prioriteringar.
+- Ska göra:
+- Försöka börja koda, efter vi har byggat och codat databasen i c sharp. 
+
+
+#### Tanya
+- Har gjort:
+- Lyssnat på andra i gruppen för att hänga med bättre.
+- Gjort färdig wireframen på filterroom.
+- Ska göra:
+- Ska också koda databasen och login fuktionen.
+
+
+#### Jacob
+- Har gjort:
+- Har reviewat databasen.
+- Ska göra:
+- Vill gärna att vi skapar minst en färdig package i databasen med dummy data.
+
+
+#### Amir
+- Har gjrot:
+- Har gått genom och fixat databas tabeller som max har laddade upp på github.
+- Pratade med manne om naming conventions och prioriteringar av våra user stories.
+- Ska göra:
+- Jobba med databasen och fixa login fuktionen tillsammas med alla andra.
