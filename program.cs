@@ -7,6 +7,7 @@ Config config = new("server=127.0.0.1;uid=Holidaymaker;pwd=Holidaymaker;database
 builder.Services.AddSingleton(config);
 var app = builder.Build();
 
+app.MapPost("/users", Users.Post);
 app.MapDelete("/db", db_reset_to_default);
 
 
