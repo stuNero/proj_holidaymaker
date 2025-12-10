@@ -8,6 +8,9 @@ builder.Services.AddSingleton(config);
 var app = builder.Build();
 
 app.MapPost("/users", Users.Post);
+app.MapGet("/users", Users.GetAll);
+
+
 app.MapDelete("/db", db_reset_to_default);
 
 
