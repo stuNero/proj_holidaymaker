@@ -1,5 +1,3 @@
-using System.Globalization;
-
 namespace server;
 
 static class Users
@@ -20,6 +18,14 @@ static class Users
       new("@password", user.Password)
     };
     await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameters);
+
+    string role = (string)await MySqlHelper.ExecuteScalarAsync(config.db, "SELECT role FROM users WHERE id = 1");
+
+    if (role != "admin")
+    {
+      string checkAdminQuery = "UPDATE users SET role = 'admin' WHERE id = 1 ";
+      await MySqlHelper.ExecuteNonQueryAsync(config.db, checkAdminQuery);
+    }
   }
 
   public record GetAll_Data(int Id, string FirstName, string LastName, string Email, string Role);
