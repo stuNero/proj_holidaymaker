@@ -21,4 +21,20 @@ static class Users
     };
     await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameters);
   }
+
+  public record GetAll_Data(int Id, string FirstName, string LastName, string Email, string Role);
+
+  public static async Task<List<GetAll_Data>> GetAll(Config config)
+  {
+    List<GetAll_Data> result = new();
+    string query = "SELECT id, first_name, last_name, email, role FROM users";
+    using (var reader = await MySqlHelper.ExecuteReaderAsync(config.db, query))
+    {
+      while (reader.Read())
+      {
+        result.Add(new(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4)));
+      }
+    }
+    return result;
+  }
 }
