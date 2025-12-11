@@ -337,3 +337,44 @@
 - Pratade med manne om naming conventions och prioriteringar av våra user stories.
 - Ska göra:
 - Jobba med databasen och fixa login fuktionen tillsammas med alla andra.
+
+
+
+# 2025-12-11
+## Eftermiddag
+### Standups
+#### Max
+- Har gjort:
+- Gjorde issues för code implementation.
+- Ska göra:
+- Accomodations code implementation.
+
+#### Pierino
+- Har gjort:
+- Satte igång databas servern tillsammns för att kunna börja coda.
+- Pratat med benjamin om projektet.
+- Ska göra:
+- Vill gärna skapa en spärr för att vem ska ha vilka permissions.
+- Söka paket code implementation.
+
+  
+#### Tanya
+- Har gjort:
+- Lyssnat på vad vi har gjort för att hänga med.
+- Ska göra:
+- Se vad andra ska göra, och försöka par programera tillsammans med någon.
+
+
+#### Jacob
+- Har gjort:
+- Har försökt generera data till databasen.
+- Kollat igenom vilka metoder som finns i postman och hur de ska implementeras.
+- Ska göra:
+- Ska par programera med max på accomodation.
+
+#### Amir
+- Har gjrot:
+- Har försökt att genarera data för databasen tillsammans med max och jacob.
+- Gått genom vad olika metoder i postman gör.
+- Ska göra:
+- Göra färdig login code implementation.
