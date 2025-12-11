@@ -378,3 +378,7 @@
 - Gått genom vad olika metoder i postman gör.
 - Ska göra:
 - Göra färdig login code implementation.
+
+
+### Code Review
+- Vi har börjat coda på login, accomodation och packages features.
