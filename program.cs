@@ -21,3 +21,5 @@ async Task db_reset_to_default()
   await MySqlHelper.ExecuteNonQueryAsync(config.db, DBQueries.DropAllTable());
   await MySqlHelper.ExecuteNonQueryAsync(config.db, DBQueries.CreateAllTables());
 }
+
+
