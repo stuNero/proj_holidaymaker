@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS room_properties
 CREATE TABLE IF NOT EXISTS properties_per_room
 (
     room INT NOT NULL REFERENCES rooms(id),
-    property INT NOT NULL REFERENCES rooms_properties(id),
+    property INT NOT NULL REFERENCES room_properties(id),
     UNIQUE (room,property)
 );
 CREATE TABLE IF NOT EXISTS amenities
