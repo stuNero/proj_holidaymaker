@@ -9,6 +9,7 @@ var app = builder.Build();
 
 app.MapPost("/users", Users.Post);
 app.MapGet("/users", Users.GetAll);
+app.MapGet("/packages", Packages.Get);
 
 
 app.MapDelete("/db", db_reset_to_default);
@@ -22,5 +23,3 @@ async Task db_reset_to_default()
   await MySqlHelper.ExecuteNonQueryAsync(config.db, DBQueries.CreateAllTables());
   await MySqlHelper.ExecuteNonQueryAsync(config.db, DBQueries.InsertMockData());
 }
-
-// TEST KOD
