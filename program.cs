@@ -16,7 +16,7 @@ app.MapGet("/accommodations/{id}",Accommodations.Get);
 // app.MapPost("/accommodations",Accommodations.Post);
 // app.MapPut("/accommodations",Accommodations.Put);
 // app.MapPatch("/accommodations",Accommodations.Patch);
-// app.MapDelete("/accommodations",Accommodations.Delete);
+app.MapDelete("/accommodations/{id}",Accommodations.Delete);
 
 // DB functions
 app.MapDelete("/db", db_reset_to_default);

@@ -5,17 +5,22 @@ namespace server;
 
 class Accommodations
 {
-    // public record Delete_Data(int id);
-    // public static async Task<Delete_Data?> Delete(int id,Config config)
-    // {
-    //     string query = 
-    //     """
-    //     DELETE FROM accommodations
-    //     WHERE id = @id
-    //     """;
-    //     var parameters = new MySqlParameter [] {new ("@id",id)};
-    //     await MySqlHelper.ExecuteNonQuery(config.db,query,parameters);
-    // }
+    public record DeleteResponse(bool success,string msg);
+    public static async Task<DeleteResponse?> Delete(int id,Config config)
+    {
+        string query = 
+        """
+        DELETE FROM accommodations
+        WHERE id = @id
+        """;
+        var parameters = new MySqlParameter [] {new ("@id",id)};
+        int deleted = await MySqlHelper.ExecuteNonQueryAsync(config.db,query,parameters);
+
+        if (deleted == 0)
+            return new DeleteResponse(false, $"Row with id {id} not found.");
+
+        return new DeleteResponse(true, $"Row with id {id} deleted.");
+    }
     public record Get_AllData(int id, string name, string city, string type);
     public static async Task<List<Get_AllData?>> GetAll(Config config)
     {
