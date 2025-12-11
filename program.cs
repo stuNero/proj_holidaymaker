@@ -20,7 +20,7 @@ async Task db_reset_to_default()
 {
   await MySqlHelper.ExecuteNonQueryAsync(config.db, DBQueries.DropAllTable());
   await MySqlHelper.ExecuteNonQueryAsync(config.db, DBQueries.CreateAllTables());
-  await MySqlHelper.ExecuteNonQueryAsync(config.db, DBQueries.InsertMockData2());
+  await MySqlHelper.ExecuteNonQueryAsync(config.db, DBQueries.InsertMockData());
 }
 
 
