@@ -10,7 +10,7 @@ var app = builder.Build();
 app.MapPost("/users", Users.Post);
 app.MapGet("/users", Users.GetAll);
 app.MapGet("/packages", Packages.Get);
-
+app.MapGet("/packages/{id}", Packages.GetPackageDetails);
 
 app.MapDelete("/db", db_reset_to_default);
 
