@@ -82,8 +82,28 @@ class Accommodations
 
         await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameters);
     }
-    // public record Get_RoomData(int id, string name);
-    // public static async Task GetRooms();
+    public record Get_RoomData(int id, string name, int sleep_spots);
+    public static async Task<List<Get_RoomData>> GetAccommodationRooms(int id, Config config)
+    {
+        List<Get_RoomData> result = new();
+        string query =
+        """ 
+        SELECT r.id, r.name, r.sleep_spots
+        FROM rooms r
+        JOIN accommodations a ON r.accommodation = a.id
+        WHERE a.id = @id;
+        """;
+
+        var parameter = new MySqlParameter[] { new("@id", id) };
+        using (var reader = await MySqlHelper.ExecuteReaderAsync(config.db, query, parameter))
+        {
+            while (reader.Read())
+            {
+                result.Add(new(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2)));
+            }
+        }
+        return result;
+    }
     public record PatchResponse(bool success, string message);
     public static async Task<PatchResponse> Patch(int id, string column, string value, Config config)
     {
@@ -116,4 +136,6 @@ class Accommodations
         }
         return new PatchResponse(true, $"Row with id {id} patched.");
     }
+
+
 }
