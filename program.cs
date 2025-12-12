@@ -11,12 +11,12 @@ app.MapPost("/users", Users.Post);
 app.MapGet("/users", Users.GetAll);
 
 // Accommodations Functions
-app.MapGet("/accommodations",Accommodations.GetAll);
-app.MapGet("/accommodations/{id}",Accommodations.Get);
-// app.MapPost("/accommodations",Accommodations.Post);
+app.MapGet("/accommodations", Accommodations.GetAll);
+app.MapGet("/accommodations/{id}", Accommodations.Get);
+app.MapPost("/accommodations", Accommodations.Post);
 // app.MapPut("/accommodations",Accommodations.Put);
 // app.MapPatch("/accommodations",Accommodations.Patch);
-app.MapDelete("/accommodations/{id}",Accommodations.Delete);
+app.MapDelete("/accommodations/{id}", Accommodations.Delete);
 
 // DB functions
 app.MapDelete("/db", db_reset_to_default);
