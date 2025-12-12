@@ -82,6 +82,38 @@ class Accommodations
         await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameters);
     }
 
+    public record PatchResponse(bool success, string message);
+
+    public static async Task<PatchResponse> Patch(int id, string column, string value, Config config)
+    {
+
+        if (column != "name")
+        {
+            return new PatchResponse(false, $"Column '{column}' is not allowed");
+        }
 
 
+        string query = $"""
+        UPDATE accommodations
+        SET {column} = @value
+        WHERE id = @id
+        
+        """;
+        var parameters = new MySqlParameter[]
+        {
+                new("@id", id),
+                new("@value", value)
+        };
+
+
+        int patched = await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameters);
+
+        if (patched == 0)
+        {
+            return new PatchResponse(false, $"Row with id {id} not found.");
+
+
+        }
+        return new PatchResponse(true, $"Row with id {id} patched.");
+    }
 }
