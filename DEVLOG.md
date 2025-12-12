@@ -382,3 +382,33 @@
 
 ### Code Review
 - Vi har börjat coda på login, accomodation och packages features.
+
+# 2025-12-12
+## Förmiddag
+### Standup
+#### Jacob
+##### Har gjort:
+- Gjorde klart post på feat/accommodations
+- Nästan färdig med patch på feat/accommodations
+##### Ska göra:
+- Försöka få klart hela accommodations feature
+- Hinna börja på annan feature
+#### Pierino
+##### Har gjort:
+- Börjat med att få ut alla packages
+- Hjälpt Tanya förstå Git funktioner
+- 
+##### Ska göra
+- Fortsätta med Package Features
+#### Tanya
+##### Har Gjort: 
+- Fått hjälp av Pierino med Git funktioner
+- har börjat med Transport Features
+##### Ska göra:
+- Fortsätta med Transport Features
+#### Max
+##### Har Gjort: 
+- Get All, Get Single med jacob, Delete i Accommodations Features
+##### Ska göra:
+- Put, Update i Accommodations
+  
