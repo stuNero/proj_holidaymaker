@@ -41,8 +41,7 @@ static class DBQueries
 
             -- Cities
             INSERT IGNORE INTO cities (name, country) VALUES ('Athens', 1),('Thessaloniki', 1),
-            ('Rome', 2), ('Milan', 2),
-            ('Madrid', 3),('Barcelona', 3);
+            ('Rome', 2), ('Milan', 2),('Madrid', 3),('Barcelona', 3);
 
             -- Accommodations
             INSERT IGNORE INTO accommodations (name, city) VALUES ('Athens Grand Hotel', 1),('Athens Resort', 1),('Athens Boutique Hotel', 1),
@@ -53,28 +52,18 @@ static class DBQueries
 
             -- Rooms
             INSERT IGNORE INTO rooms (name, sleep_spots, accommodation) VALUES ('Room 101', 2, 1),
-            ('Room 102', 2, 1),('Room 103', 2, 1),
-            ('Room 104', 2, 1),('Room 105', 2, 1),
-            ('Room 201', 2, 2),('Room 202', 2, 2),
-            ('Room 203', 2, 2),('Room 204', 2, 2),
-            ('Room 205', 2, 2),('Room 301', 2, 3),
-            ('Room 302', 2, 3),('Room 303', 2, 3),
-            ('Room 304', 2, 3),('Room 305', 2, 3),
-            ('Room 401', 2, 4),('Room 402', 2, 4),
-            ('Room 403', 2, 4),('Room 404', 2, 4),
-            ('Room 405', 2, 4),('Room 501', 2, 5),
-            ('Room 502', 2, 5),('Room 503', 2, 5),
-            ('Room 504', 2, 5),('Room 505', 2, 5),
-            ('Room 601', 2, 6),('Room 602', 2, 6),
-            ('Room 603', 2, 6),('Room 604', 2, 6),
-            ('Room 605', 2, 6);
+            ('Room 102', 2, 1),('Room 103', 2, 1),('Room 104', 2, 1),('Room 105', 2, 1),('Room 201', 2, 2),('Room 202', 2, 2),
+            ('Room 203', 2, 2),('Room 204', 2, 2),('Room 205', 2, 2),('Room 301', 2, 3),('Room 302', 2, 3),('Room 303', 2, 3),
+            ('Room 304', 2, 3),('Room 305', 2, 3),('Room 401', 2, 4),('Room 402', 2, 4),('Room 403', 2, 4),('Room 404', 2, 4),
+            ('Room 405', 2, 4),('Room 501', 2, 5),('Room 502', 2, 5),('Room 503', 2, 5),('Room 504', 2, 5),('Room 505', 2, 5),
+            ('Room 601', 2, 6),('Room 602', 2, 6),('Room 603', 2, 6),('Room 604', 2, 6),('Room 605', 2, 6);
 
             -- Transport types
             INSERT IGNORE INTO transport_types (name) VALUES ('Flight'),('Train'),('Bus');
 
             -- Transports
-            INSERT IGNORE INTO transports (type, start_city, end_city, company, price, start_datetime, end_datetime)
-            VALUES (1, 1, 3, 'GreekAir', 199.99, '2026-01-10 08:00:00', '2026-01-10 10:30:00'),
+            INSERT IGNORE INTO transports (type, start_city, end_city, company, price, start_datetime, end_datetime) VALUES
+            (1, 1, 3, 'GreekAir', 199.99, '2026-01-10 08:00:00', '2026-01-10 10:30:00'),
             (2, 2, 4, 'EuroTrain', 129.99, '2026-01-12 09:00:00', '2026-01-12 17:00:00'),
             (3, 1, 3, 'MediterraneanBus', 49.99, '2026-01-15 07:00:00', '2026-01-15 18:30:00'),
             (1, 3, 5, 'ItalyFly', 159.99, '2026-01-20 10:00:00', '2026-01-20 12:00:00'),
@@ -89,14 +78,12 @@ static class DBQueries
             VALUES ('Mediterranean Delight', 'Explore the Mediterranean: Greece, Italy, and Spain with beautiful cities and accommodations.', 1999.99);
 
             -- Transport per package
-            INSERT IGNORE INTO transport_per_package (transport, package) VALUES (1, 1),(2, 1),(3, 1),
-            (4, 1),(5, 1),(6, 1),(7, 1),(8, 1),(9, 1);
+            INSERT IGNORE INTO transport_per_package (transport, package) VALUES
+            (1, 1),(2, 1),(3, 1),(4, 1),(5, 1), (6, 1),(7, 1), (8, 1), (9, 1);
 
             -- Accommodation per package
-            INSERT IGNORE INTO accommodation_per_package (accommodation, package) VALUES (1, 1),(2, 1),(3, 1),
-            (4, 1),(5, 1),(6, 1),(7, 1),(8, 1),(9, 1),
-            (10, 1),(11, 1),(12, 1),(13, 1),(14, 1),(15, 1),
-            (16, 1),(17, 1),(18, 1);
+            INSERT IGNORE INTO accommodation_per_package (accommodation, package) VALUES
+            (1, 1),(4, 1),(7, 1),(10, 1),(13, 1),(16, 1);
 
             -- Amenities
             INSERT IGNORE INTO amenities (name) VALUES
