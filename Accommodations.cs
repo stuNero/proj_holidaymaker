@@ -1,5 +1,6 @@
 using Microsoft.VisualBasic;
 using Mysqlx.Crud;
+using Org.BouncyCastle.Crypto.Engines;
 
 namespace server;
 
@@ -81,17 +82,17 @@ class Accommodations
 
         await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameters);
     }
-
+    // public record Get_RoomData(int id, string name);
+    // public static async Task GetRooms();
     public record PatchResponse(bool success, string message);
-
     public static async Task<PatchResponse> Patch(int id, string column, string value, Config config)
     {
+        string[] allowedColumn = { "name", "type" };
 
-        if (column != "name")
+        if (!allowedColumn.Contains(column))
         {
             return new PatchResponse(false, $"Column '{column}' is not allowed");
         }
-
 
         string query = $"""
         UPDATE accommodations
@@ -104,7 +105,6 @@ class Accommodations
                 new("@id", id),
                 new("@value", value)
         };
-
 
         int patched = await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameters);
 
