@@ -1,5 +1,6 @@
 using Microsoft.VisualBasic;
 using Mysqlx.Crud;
+using MySqlX.XDevAPI.Common;
 using Org.BouncyCastle.Crypto.Engines;
 
 namespace server;
@@ -83,7 +84,7 @@ class Accommodations
         await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameters);
     }
     public record Get_RoomData(int id, string name, int sleep_spots);
-    public static async Task<List<Get_RoomData>> GetAccommodationRooms(int id, Config config)
+    public static async Task<List<Get_RoomData>> GetRooms(int id, Config config)
     {
         List<Get_RoomData> result = new();
         string query =
@@ -135,6 +136,30 @@ class Accommodations
 
         }
         return new PatchResponse(true, $"Row with id {id} patched.");
+    }
+
+    public record Get_AmenitiesData(int id, string name);
+    public static async Task<List<Get_AmenitiesData>> GetAmenities(int id, Config config)
+    {
+        List<Get_AmenitiesData> result = new();
+        string query =
+        """
+        SELECT am.id, am.name 
+        FROM amenities am
+        JOIN amenities_per_accommodation apa ON apa.amenity = am.id
+        JOIN accommodations ac ON ac.id = apa.accommodation
+        WHERE ac.id = @id
+        """;
+
+        var parameters = new MySqlParameter[] { new("@id", id) };
+        using (var reader = await MySqlHelper.ExecuteReaderAsync(config.db, query, parameters))
+        {
+            while (reader.Read())
+            {
+                result.Add(new(reader.GetInt32(0), reader.GetString(1)));
+            }
+        }
+        return result;
     }
 
 

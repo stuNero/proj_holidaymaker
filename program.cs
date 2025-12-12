@@ -17,7 +17,8 @@ app.MapPost("/accommodations", Accommodations.Post);
 // app.MapPut("/accommodations",Accommodations.Put);
 app.MapPatch("/accommodations/{id}/{column}/{value}", Accommodations.Patch);
 app.MapDelete("/accommodations/{id}", Accommodations.Delete);
-app.MapGet("/accommodations/{id}/rooms", Accommodations.GetAccommodationRooms);
+app.MapGet("/accommodations/{id}/rooms", Accommodations.GetRooms);
+app.MapGet("/accommodations/{id}/amenities", Accommodations.GetAmenities);
 // DB functions
 app.MapDelete("/db", db_reset_to_default);
 async Task db_reset_to_default()
