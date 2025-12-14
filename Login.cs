@@ -27,6 +27,13 @@ static class Login
     }
     return result;
   }
+  public static async Task<string> Delete(Config config, HttpContext ctx)
+  {
+    ctx.Session.Clear();
+    return $"You are loged out.";
+
+  }
+
 
 
 }
