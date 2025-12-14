@@ -34,6 +34,32 @@ static class Login
 
   }
 
+  public record Get_Data(string FirstName, string LastName, string Email, string? Role);
+  public static async Task<Get_Data> Get(Config config, HttpContext ctx)
+  {
+    Get_Data? result = null;
+    if (ctx.Session.IsAvailable)
+    {
+      if (ctx.Session.Keys.Contains("user_id"))
+      {
+        string query = "SELECT first_name, last_name, email, role FROM users WHERE id = @id";
+        var parameters = new MySqlParameter[]
+        {
+          new("@id", ctx.Session.GetInt32("user_id"))
+        };
 
+        using (var reader = await MySqlHelper.ExecuteReaderAsync(config.db, query, parameters))
+        {
+          if (reader.Read())
+          {
+            result = new(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader[3] as string);
+
+          }
+        }
+      }
+    }
+    return result;
+
+  }
 
 }
