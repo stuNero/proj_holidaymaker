@@ -7,7 +7,7 @@ static class DBQueries
     static public string DropAllTable()
     {
         string query =
-        """
+        """    
         DROP TABLE IF EXISTS orders;
         DROP TABLE IF EXISTS users;
         DROP TABLE IF EXISTS cuisines;
@@ -25,7 +25,7 @@ static class DBQueries
         DROP TABLE IF EXISTS room_properties;
         DROP TABLE IF EXISTS properties_per_room;
         DROP TABLE IF EXISTS amenities;
-        DROP TABLE IF EXISTS amenities_per_accommodation;
+        DROP TABLE IF EXISTS amenities_per_accommodation;        
         """;
         return query;
     }
@@ -84,9 +84,9 @@ static class DBQueries
             (2, 3, 4, 'Shinkansen Co', 80.00),
             (2, 4, 3, 'Shinkansen Co', 80.00);
 
-            INSERT IGNORE INTO transport_per_package (package, transport) VALUES
-            (1,3),
-            (2,5);
+            INSERT IGNORE INTO transport_per_package (transport, package) VALUES
+            (3,1),
+            (5,2);
 
             INSERT IGNORE INTO rooms (name, sleep_spots, accommodation, price)
             VALUES
@@ -161,7 +161,7 @@ static class DBQueries
                 id      INT PRIMARY KEY AUTO_INCREMENT,
                 name    VARCHAR(255) UNIQUE,
                 cuisine INT NOT NULL,
-                FOREIGN KEY (cuisine) REFERENCES cuisines(id) ON DELETE RESTRICT ON UPDATE CASCADE
+                FOREIGN KEY (cuisine) REFERENCES cuisines(id) ON DELETE CASCADE ON UPDATE CASCADE
             );
 
             CREATE TABLE IF NOT EXISTS cities
@@ -169,7 +169,7 @@ static class DBQueries
                 id      INT PRIMARY KEY AUTO_INCREMENT,
                 name    VARCHAR(255),
                 country INT NOT NULL,
-                FOREIGN KEY (country) REFERENCES countries(id) ON DELETE RESTRICT ON UPDATE CASCADE
+                FOREIGN KEY (country) REFERENCES countries(id) ON DELETE CASCADE ON UPDATE CASCADE
             );
 
             CREATE TABLE IF NOT EXISTS accommodations
@@ -178,7 +178,7 @@ static class DBQueries
                 name    VARCHAR(255),
                 city    INT NOT NULL,
                 type    ENUM('hotel', 'motel', 'hostel') DEFAULT 'hotel',
-                FOREIGN KEY (city) REFERENCES cities(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                FOREIGN KEY (city) REFERENCES cities(id) ON DELETE CASCADE ON UPDATE CASCADE,
                 UNIQUE (city, name)
             );
 
@@ -213,15 +213,15 @@ static class DBQueries
                 end_city   INT NOT NULL,
                 company    VARCHAR(255),
                 price      DECIMAL(10,2),
-                FOREIGN KEY (type) REFERENCES transport_types(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                FOREIGN KEY (start_city) REFERENCES cities(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                FOREIGN KEY (end_city) REFERENCES cities(id) ON DELETE RESTRICT ON UPDATE CASCADE
+                FOREIGN KEY (type) REFERENCES transport_types(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                FOREIGN KEY (start_city) REFERENCES cities(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                FOREIGN KEY (end_city) REFERENCES cities(id) ON DELETE CASCADE ON UPDATE CASCADE
             );
 
             CREATE TABLE IF NOT EXISTS transport_per_package
             (
-                package INT REFERENCES packages(id) ON DELETE CASCADE ON UPDATE CASCADE,
-                transport INT REFERENCES transports(id) ON DELETE CASCADE ON UPDATE CASCADE
+                transport INT REFERENCES transports(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                package INT REFERENCES packages(id) ON DELETE CASCADE ON UPDATE CASCADE
             );
 
             CREATE TABLE IF NOT EXISTS orders
@@ -230,7 +230,7 @@ static class DBQueries
                 user        INT NOT NULL,
                 package     INT,
                 total_price DECIMAL(10,2),
-                FOREIGN KEY (user) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                FOREIGN KEY (user) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
                 FOREIGN KEY (package) REFERENCES packages(id) ON DELETE SET NULL ON UPDATE CASCADE,
                 UNIQUE (id, user)
             );
@@ -262,7 +262,7 @@ static class DBQueries
                 order_id       INT NOT NULL,
                 start_datetime DATETIME,
                 end_datetime   DATETIME,
-                FOREIGN KEY (room_id) REFERENCES rooms(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                FOREIGN KEY (room_id) REFERENCES rooms(id) ON DELETE CASCADE ON UPDATE CASCADE,
                 FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE,
                 UNIQUE (room_id, start_datetime, end_datetime)
             );
