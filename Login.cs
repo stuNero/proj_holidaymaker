@@ -1,3 +1,6 @@
+using System.Diagnostics;
+using MySqlX.XDevAPI.Common;
+
 namespace server;
 
 // Login 
@@ -28,9 +31,8 @@ static class Login
   // Logout
   public static async Task<string> Delete(Config config, HttpContext ctx)
   {
-    ctx.Session.Clear();
-    return $"You are loged out.";
-
+    ctx.Session.Remove("user_id");
+    return "You are loged out.";
   }
 
 
@@ -54,13 +56,10 @@ static class Login
           if (reader.Read())
           {
             result = new(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader[3] as string);
-
           }
         }
       }
     }
-    return result;
-
+    return result!;
   }
-
 }
