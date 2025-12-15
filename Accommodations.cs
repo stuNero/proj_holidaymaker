@@ -1,0 +1,232 @@
+using System.ComponentModel;
+using Microsoft.VisualBasic;
+using Mysqlx.Crud;
+using MySqlX.XDevAPI.Common;
+using Org.BouncyCastle.Crypto.Engines;
+
+namespace server;
+
+class Accommodations
+{
+    public record DeleteResponse(bool success, string msg);
+    public static async Task<DeleteResponse?> Delete(int id, Config config)
+    {
+        string query =
+        """
+        DELETE FROM accommodations
+        WHERE id = @id
+        """;
+        var parameters = new MySqlParameter[] { new("@id", id) };
+        int deleted = await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameters);
+
+        if (deleted == 0)
+            return new DeleteResponse(false, $"Row with id {id} not found.");
+
+        return new DeleteResponse(true, $"Row with id {id} deleted.");
+    }
+    public record Get_AllData(int id, string name, string city, string type);
+    public static async Task<List<Get_AllData?>> GetAll(Config config)
+    {
+        List<Get_AllData?> result = new();
+        string query =
+        """
+        SELECT a.id, a.name, c.name, a.type 
+        FROM accommodations a
+        JOIN cities c ON a.city = c.id;
+        """;
+
+        using (var reader = await MySqlHelper.ExecuteReaderAsync(config.db, query))
+        {
+            while (reader.Read())
+            {
+                result.Add(new(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3)));
+            }
+        }
+        return result;
+    }
+
+    public record Get_Data(int id, string name, string city, string type);
+    public static async Task<Get_Data?> Get(int id, Config config)
+    {
+        Get_Data? result = null;
+        string query =
+        """
+        SELECT a.id, a.name, c.name, a.type 
+        FROM accommodations a
+        JOIN cities c ON a.city = c.id
+        WHERE a.id = @id;
+        """;
+        var parameters = new MySqlParameter[] { new("@id", id) };
+        using (var reader = await MySqlHelper.ExecuteReaderAsync(config.db, query, parameters))
+        {
+            if (reader.Read())
+            {
+                result = new(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3));
+            }
+        }
+        return result;
+    }
+
+    public record Post_Args(string name, int city, string type);
+    public static async Task Post(Post_Args Accommodations, Config config)
+    {
+        string query = """
+        INSERT INTO accommodations (name, city, type)
+        VALUES(@name, @city, @type)
+        """;
+        var parameters = new MySqlParameter[]
+        {
+            new("@name", Accommodations.name),
+            new("@city", Accommodations.city),
+            new("@type", Accommodations.type)
+
+        };
+
+        await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameters);
+    }
+    public record Get_RoomData(int id, string name, int sleep_spots);
+    public static async Task<List<Get_RoomData>> GetRooms(int id, Config config)
+    {
+        List<Get_RoomData> result = new();
+        string query =
+        """ 
+        SELECT r.id, r.name, r.sleep_spots
+        FROM rooms r
+        JOIN accommodations a ON r.accommodation = a.id
+        WHERE a.id = @id;
+        """;
+
+        var parameter = new MySqlParameter[] { new("@id", id) };
+        using (var reader = await MySqlHelper.ExecuteReaderAsync(config.db, query, parameter))
+        {
+            while (reader.Read())
+            {
+                result.Add(new(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2)));
+            }
+        }
+        return result;
+    }
+    public record PatchResponse(bool success, string message);
+    public static async Task<PatchResponse> Patch(int id, string column, string value, Config config)
+    {
+        string[] allowedColumn = { "name", "type" };
+
+        if (!allowedColumn.Contains(column))
+        {
+            return new PatchResponse(false, $"Column '{column}' is not allowed");
+        }
+
+        string query = $"""
+        UPDATE accommodations
+        SET {column} = @value
+        WHERE id = @id
+        
+        """;
+        var parameters = new MySqlParameter[]
+        {
+                new("@id", id),
+                new("@value", value)
+        };
+
+        int patched = await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameters);
+
+        if (patched == 0)
+        {
+            return new PatchResponse(false, $"Row with id {id} not found.");
+
+
+        }
+        return new PatchResponse(true, $"Row with id {id} patched.");
+    }
+
+    public record AccommodationDefaultValues(string name, int city, string type);
+    public record PutResponse(bool success, string message);
+
+
+    public static async Task<PutResponse> Put(Config config, AccommodationDefaultValues Accommodations, int id)
+    {
+        AccommodationDefaultValues? defaultValues = null;
+        string selectQuery = "SELECT name, city, type FROM accommodations WHERE id = @id";
+        var selectParam = new MySqlParameter[] { new("@id", id) };
+
+
+        using (var reader = await MySqlHelper.ExecuteReaderAsync(config.db, selectQuery, selectParam))
+        {
+            if (reader.Read())
+            {
+                defaultValues = new(reader.GetString(0), reader.GetInt32(1), reader.GetString(2));
+            }
+            else
+            {
+                return new PutResponse(false, $"Accommodation with {id} not found");
+            }
+        }
+
+        string finalName;
+        if (string.IsNullOrEmpty(Accommodations.name)) finalName = defaultValues.name;
+        else finalName = Accommodations.name;
+
+        int finalCity;
+        if (Accommodations.city == 0) finalCity = defaultValues.city;
+        else finalCity = Accommodations.city;
+
+        string finalType;
+        if (string.IsNullOrEmpty(Accommodations.type)) finalType = defaultValues.type;
+        else finalType = Accommodations.type;
+
+        string query = """
+        UPDATE accommodations SET name = @name, city = @city, type = @type
+        WHERE id = @id
+        
+        """;
+
+        var parameter = new MySqlParameter[]
+        {
+            new("@id", id),
+            new("@name", finalName),
+            new("@city", finalCity),
+            new("@type", finalType)
+        };
+
+        int updated = await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameter);
+
+        if (updated == 0)
+        {
+            return new PutResponse(false, $"Failed to upade accommodation with id {id}.");
+        }
+        else
+        {
+            return new PutResponse(true, $"Accommodation with id {id} has been updated successfully");
+        }
+
+
+
+
+
+    }
+    public record Get_AmenitiesData(int id, string name);
+    public static async Task<List<Get_AmenitiesData>> GetAmenities(int id, Config config)
+    {
+        List<Get_AmenitiesData> result = new();
+        string query =
+        """
+        SELECT am.id, am.name 
+        FROM amenities am
+        JOIN amenities_per_accommodation apa ON apa.amenity = am.id
+        JOIN accommodations ac ON ac.id = apa.accommodation
+        WHERE ac.id = @id
+        """;
+
+        var parameters = new MySqlParameter[] { new("@id", id) };
+        using (var reader = await MySqlHelper.ExecuteReaderAsync(config.db, query, parameters))
+        {
+            while (reader.Read())
+            {
+                result.Add(new(reader.GetInt32(0), reader.GetString(1)));
+            }
+        }
+        return result;
+    }
+
+
+}
