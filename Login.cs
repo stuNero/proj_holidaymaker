@@ -4,6 +4,7 @@ using ZstdSharp.Unsafe;
 
 namespace server;
 
+// Login 
 static class Login
 {
   public record Post_Args(string Email, string Password);
@@ -27,6 +28,8 @@ static class Login
     }
     return result;
   }
+
+  // Logout
   public static async Task<string> Delete(Config config, HttpContext ctx)
   {
     ctx.Session.Clear();
@@ -34,6 +37,8 @@ static class Login
 
   }
 
+
+  // Hämta data som login user
   public record Get_Data(string FirstName, string LastName, string Email, string? Role);
   public static async Task<Get_Data> Get(Config config, HttpContext ctx)
   {
