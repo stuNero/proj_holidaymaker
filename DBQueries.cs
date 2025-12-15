@@ -28,7 +28,6 @@ static class DBQueries
         """;
         return query;
     }
-
     static public string InsertMockData()
     {
         string insertQueries =

@@ -337,3 +337,128 @@
 - Pratade med manne om naming conventions och prioriteringar av våra user stories.
 - Ska göra:
 - Jobba med databasen och fixa login fuktionen tillsammas med alla andra.
+
+
+
+# 2025-12-11
+## Eftermiddag
+### Standups
+#### Max
+- Har gjort:
+- Gjorde issues för code implementation.
+- Ska göra:
+- Accomodations code implementation.
+
+#### Pierino
+- Har gjort:
+- Satte igång databas servern tillsammns för att kunna börja coda.
+- Pratat med benjamin om projektet.
+- Ska göra:
+- Vill gärna skapa en spärr för att vem ska ha vilka permissions.
+- Söka paket code implementation.
+
+  
+#### Tanya
+- Har gjort:
+- Lyssnat på vad vi har gjort för att hänga med.
+- Ska göra:
+- Se vad andra ska göra, och försöka par programera tillsammans med någon.
+
+
+#### Jacob
+- Har gjort:
+- Har försökt generera data till databasen.
+- Kollat igenom vilka metoder som finns i postman och hur de ska implementeras.
+- Ska göra:
+- Ska par programera med max på accomodation.
+
+#### Amir
+- Har gjrot:
+- Har försökt att genarera data för databasen tillsammans med max och jacob.
+- Gått genom vad olika metoder i postman gör.
+- Ska göra:
+- Göra färdig login code implementation.
+
+
+### Code Review
+- Vi har börjat coda på login, accomodation och packages features.
+
+# 2025-12-12
+## Förmiddag
+### Standup
+#### Jacob
+##### Har gjort:
+- Gjorde klart post på feat/accommodations
+- Nästan färdig med patch på feat/accommodations
+##### Ska göra:
+- Försöka få klart hela accommodations feature
+- Hinna börja på annan feature
+#### Pierino
+##### Har gjort:
+- Börjat med att få ut alla packages
+- Hjälpt Tanya förstå Git funktioner
+- 
+##### Ska göra
+- Fortsätta med Package Features
+#### Tanya
+##### Har Gjort: 
+- Fått hjälp av Pierino med Git funktioner
+- har börjat med Transport Features
+##### Ska göra:
+- Fortsätta med Transport Features
+#### Max
+##### Har Gjort: 
+- Get All, Get Single med jacob, Delete i Accommodations Features
+##### Ska göra:
+- Put, Update i Accommodations
+  
+# 2025-12-15
+## Morgon
+### Standup
+#### Amir
+##### Har gjort:
+- Gjort färdigt login/logout, hämta user info när man är inloggad
+##### Ska göra:
+- Följa med på code review
+- Assign till en issue
+#### Jacob
+##### Har gjort:
+- 'Patch' i accommodations är klar
+- 'Put' är snart klar
+##### Ska göra:
+- Göra klart 'Put'
+- Fixa databas schemat med gruppen
+#### Pierino
+##### Har gjort:
+- 'Get' för packages, funkar delvis
+##### Ska göra:
+- Anpassa packages till nya databas schemat
+- Boka rum till paketen
+#### Tanya
+##### Har Gjort: 
+- Gjort kod för Transport Features
+##### Ska göra:
+- Ska fortsätta med Transport Features, 'Post' etc
+- Ska följa med och ändra på databasens schema
+#### Max
+##### Har Gjort: 
+- 'Get' Rooms och Amenities från Accommodations
+- 'Delete' Accommodations
+##### Ska göra:
+- Fixa databas strukturen gällande packages och booking
+- hjälpa till med booking feature
+
+### Code Review
+#### Gått igenom: 
+##### Accommodations Features (Jacob/Max)
+- Patch
+- Delete
+- GetRooms
+- GetAmenities
+##### Transport Features (Tanya)
+- Get (WIP)
+- Delete (WIP)
+##### Login Features (Amir)
+- Get
+- Post
+- Delete
