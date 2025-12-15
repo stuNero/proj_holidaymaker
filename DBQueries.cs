@@ -19,6 +19,7 @@ static class DBQueries
         DROP TABLE IF EXISTS transport_types;
         DROP TABLE IF EXISTS transports;
         DROP TABLE IF EXISTS transport_per_order;
+        DROP TABLE IF EXISTS transport_per_package;
         DROP TABLE IF EXISTS rooms;
         DROP TABLE IF EXISTS booked_rooms;
         DROP TABLE IF EXISTS room_properties;
@@ -78,8 +79,14 @@ static class DBQueries
             VALUES
             (1, 1, 3, 'SkyWings Airlines', 350.00),
             (1, 3, 1, 'SkyWings Airlines', 355.00),
+            (2, 2, 1, 'ItaliaRail', 45.00),
             (2, 1, 2, 'ItaliaRail', 45.00),
-            (2, 3, 4, 'Shinkansen Co', 80.00);
+            (2, 3, 4, 'Shinkansen Co', 80.00),
+            (2, 4, 3, 'Shinkansen Co', 80.00);
+
+            INSERT IGNORE INTO transport_per_package (package, transport) VALUES
+            (1,3),
+            (2,5);
 
             INSERT IGNORE INTO rooms (name, sleep_spots, accommodation, price)
             VALUES
@@ -209,6 +216,12 @@ static class DBQueries
                 FOREIGN KEY (type) REFERENCES transport_types(id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 FOREIGN KEY (start_city) REFERENCES cities(id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 FOREIGN KEY (end_city) REFERENCES cities(id) ON DELETE RESTRICT ON UPDATE CASCADE
+            );
+
+            CREATE TABLE IF NOT EXISTS transport_per_package
+            (
+                package INT REFERENCES packages(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                transport INT REFERENCES transports(id) ON DELETE CASCADE ON UPDATE CASCADE
             );
 
             CREATE TABLE IF NOT EXISTS orders
