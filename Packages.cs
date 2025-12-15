@@ -46,7 +46,7 @@ static class Packages
   public static async Task Post(Post_Args package, Config config)
   {
     string query = """
-        INSERT INTO packages (name, description, discount)
+        INSERT IGNORE INTO packages (name, description, discount)
         VALUES(@name, @description, @discount)
         """;
     var parameters = new MySqlParameter[]
@@ -54,6 +54,34 @@ static class Packages
             new("@name", package.Name),
             new("@description", package.Description),
             new("@discount", package.Discount)
+    };
+    await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameters);
+  }
+  public record Post_AcPePa(int AccommodationId, int PackageId);
+  public static async Task PostAcPePa(Post_AcPePa acpepa, Config config)
+  {
+    string query =
+    """
+    INSERT IGNORE INTO accommodation_per_package (accommodation, package)
+    VALUES (@acid, @packid);
+    """;
+    var parameters = new MySqlParameter[] {
+    new("@acid", acpepa.AccommodationId),
+    new("@packid", acpepa.PackageId)
+  };
+    await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameters);
+  }
+  public record Post_TraPePa(int TransportId, int PackageId);
+  public static async Task PostTraPePa(Post_TraPePa trapepa, Config config)
+  {
+    string query =
+    """
+    INSERT IGNORE INTO transport_per_package (transport, package)
+    VALUES (@transid, @packid);
+    """;
+    var parameters = new MySqlParameter[] {
+    new("@transid", trapepa.TransportId),
+    new("@packid", trapepa.PackageId)
     };
     await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameters);
   }
