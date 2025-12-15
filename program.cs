@@ -15,9 +15,21 @@ builder.Services.AddSingleton(config);
 var app = builder.Build();
 app.UseSession();
 
+// User Functions
 app.MapPost("/users", Users.Post);
 app.MapGet("/users", Users.GetAll);
 
+// Accommodations Functions
+app.MapGet("/accommodations", Accommodations.GetAll);
+app.MapGet("/accommodations/{id}", Accommodations.Get);
+app.MapPost("/accommodations", Accommodations.Post);
+app.MapPut("/accommodations/{id}", Accommodations.Put);
+app.MapPatch("/accommodations/{id}/{column}/{value}", Accommodations.Patch);
+app.MapDelete("/accommodations/{id}", Accommodations.Delete);
+app.MapGet("/accommodations/{id}/rooms", Accommodations.GetRooms);
+app.MapGet("/accommodations/{id}/amenities", Accommodations.GetAmenities);
+
+// Login functions
 app.MapPost("/login", Login.Post);
 app.MapDelete("/login", Login.Delete);
 app.MapGet("/login", Login.Get);
@@ -25,14 +37,13 @@ app.MapGet("/login", Login.Get);
 app.MapGet("/packages", Packages.Get);
 app.MapGet("/packages/{id}", Packages.GetPackageDetails);
 
+// DB functions
 app.MapDelete("/db", db_reset_to_default);
-
-
-app.Run();
-
 async Task db_reset_to_default()
 {
   await MySqlHelper.ExecuteNonQueryAsync(config.db, DBQueries.DropAllTable());
   await MySqlHelper.ExecuteNonQueryAsync(config.db, DBQueries.CreateAllTables());
   await MySqlHelper.ExecuteNonQueryAsync(config.db, DBQueries.InsertMockData());
 }
+
+app.Run();
