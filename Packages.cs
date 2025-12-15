@@ -41,4 +41,20 @@ static class Packages
     }
     return result;
   }
+
+  public record Post_Args(string Name, string Description, string Discount);
+  public static async Task Post(Post_Args package, Config config)
+  {
+    string query = """
+        INSERT INTO packages (name, description, discount)
+        VALUES(@name, @description, @discount)
+        """;
+    var parameters = new MySqlParameter[]
+    {
+            new("@name", package.Name),
+            new("@description", package.Description),
+            new("@discount", package.Discount)
+    };
+    await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameters);
+  }
 }
