@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Microsoft.VisualBasic;
 using Mysqlx.Crud;
 using MySqlX.XDevAPI.Common;
@@ -138,6 +139,71 @@ class Accommodations
         return new PatchResponse(true, $"Row with id {id} patched.");
     }
 
+    public record AccommodationDefaultValues(string name, int city, string type);
+    public record PutResponse(bool success, string message);
+
+
+    public static async Task<PutResponse> Put(Config config, AccommodationDefaultValues Accommodations, int id)
+    {
+        AccommodationDefaultValues? defaultValues = null;
+        string selectQuery = "SELECT name, city, type FROM accommodations WHERE id = @id";
+        var selectParam = new MySqlParameter[] { new("@id", id) };
+
+
+        using (var reader = await MySqlHelper.ExecuteReaderAsync(config.db, selectQuery, selectParam))
+        {
+            if (reader.Read())
+            {
+                defaultValues = new(reader.GetString(0), reader.GetInt32(1), reader.GetString(2));
+            }
+            else
+            {
+                return new PutResponse(false, $"Accommodation with {id} not found");
+            }
+        }
+
+        string finalName;
+        if (string.IsNullOrEmpty(Accommodations.name)) finalName = defaultValues.name;
+        else finalName = Accommodations.name;
+
+        int finalCity;
+        if (Accommodations.city == 0) finalCity = defaultValues.city;
+        else finalCity = Accommodations.city;
+
+        string finalType;
+        if (string.IsNullOrEmpty(Accommodations.type)) finalType = defaultValues.type;
+        else finalType = Accommodations.type;
+
+        string query = """
+        UPDATE accommodations SET name = @name, city = @city, type = @type
+        WHERE id = @id
+        
+        """;
+
+        var parameter = new MySqlParameter[]
+        {
+            new("@id", id),
+            new("@name", finalName),
+            new("@city", finalCity),
+            new("@type", finalType)
+        };
+
+        int updated = await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameter);
+
+        if (updated == 0)
+        {
+            return new PutResponse(false, $"Failed to upade accommodation with id {id}.");
+        }
+        else
+        {
+            return new PutResponse(true, $"Accommodation with id {id} has been updated successfully");
+        }
+
+
+
+
+
+    }
     public record Get_AmenitiesData(int id, string name);
     public static async Task<List<Get_AmenitiesData>> GetAmenities(int id, Config config)
     {

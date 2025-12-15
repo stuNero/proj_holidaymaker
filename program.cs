@@ -14,11 +14,12 @@ app.MapGet("/users", Users.GetAll);
 app.MapGet("/accommodations", Accommodations.GetAll);
 app.MapGet("/accommodations/{id}", Accommodations.Get);
 app.MapPost("/accommodations", Accommodations.Post);
-// app.MapPut("/accommodations",Accommodations.Put);
+app.MapPut("/accommodations/{id}", Accommodations.Put);
 app.MapPatch("/accommodations/{id}/{column}/{value}", Accommodations.Patch);
 app.MapDelete("/accommodations/{id}", Accommodations.Delete);
 app.MapGet("/accommodations/{id}/rooms", Accommodations.GetRooms);
 app.MapGet("/accommodations/{id}/amenities", Accommodations.GetAmenities);
+
 // DB functions
 app.MapDelete("/db", db_reset_to_default);
 async Task db_reset_to_default()
