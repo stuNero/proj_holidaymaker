@@ -32,11 +32,7 @@ static class DBQueries
     {
         string insertQueries =
         """
-            INSERT IGNORE INTO users (first_name, last_name, email, password, role)
-            VALUES
-            ('Alice', 'Walker', 'alice.walker@example.com', 'hashed_pw_1', 'customer'),
-            ('Bob', 'Anderson', 'bob.anderson@example.com', 'hashed_pw_2', 'admin');
-
+            
             INSERT IGNORE INTO cuisines (name)
             VALUES
             ('Italian'),
@@ -63,8 +59,8 @@ static class DBQueries
 
             INSERT IGNORE INTO packages (name, description, discount)
             VALUES
-            ('Romantic Getaway Italy', '4 nights in Rome and Milan with breakfast included.', 10.00),
-            ('Japan Explorer', '7-day trip including Tokyo and Osaka stays.', 12.50);
+            ('Romantic Getaway Italy', '4 nights in Rome and Milan with breakfast included.', 0.1),
+            ('Japan Explorer', '7-day trip including Tokyo and Osaka stays.', 0.12);
 
             INSERT IGNORE INTO accommodation_per_package (accommodation, package)
             VALUES
@@ -85,15 +81,6 @@ static class DBQueries
             (2, 1, 2, 'ItaliaRail', 45.00),
             (2, 3, 4, 'Shinkansen Co', 80.00);
 
-            INSERT IGNORE INTO orders (user, package, total_price)
-            VALUES
-            (1, 1, 899.99);
-
-            INSERT IGNORE INTO transport_per_order (transport, order_id)
-            VALUES
-            (1, 1),
-            (3, 1);
-
             INSERT IGNORE INTO rooms (name, sleep_spots, accommodation, price)
             VALUES
             ('Double Room Classic', 2, 1, 120.00),
@@ -101,12 +88,7 @@ static class DBQueries
             ('Shared Dorm 6-bed', 6, 2, 30.00),
             ('Standard Twin', 2, 3, 95.00),
             ('Deluxe King', 2, 4, 150.00);
-
-            INSERT IGNORE INTO booked_rooms (room_id, order_id, start_datetime, end_datetime)
-            VALUES
-            (1, 1, '2026-06-10 14:00:00', '2026-06-13 10:00:00'),
-            (3, 1, '2026-06-13 15:00:00', '2026-06-15 11:00:00');
-
+        
             INSERT IGNORE INTO room_properties (name)
             VALUES
             ('Sea View'),
