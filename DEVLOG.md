@@ -412,3 +412,53 @@
 ##### Ska göra:
 - Put, Update i Accommodations
   
+# 2025-12-15
+## Morgon
+### Standup
+#### Amir
+##### Har gjort:
+- Gjort färdigt login/logout, hämta user info när man är inloggad
+##### Ska göra:
+- Följa med på code review
+- Assign till en issue
+#### Jacob
+##### Har gjort:
+- 'Patch' i accommodations är klar
+- 'Put' är snart klar
+##### Ska göra:
+- Göra klart 'Put'
+- Fixa databas schemat med gruppen
+#### Pierino
+##### Har gjort:
+- 'Get' för packages, funkar delvis
+##### Ska göra:
+- Anpassa packages till nya databas schemat
+- Boka rum till paketen
+#### Tanya
+##### Har Gjort: 
+- Gjort kod för Transport Features
+##### Ska göra:
+- Ska fortsätta med Transport Features, 'Post' etc
+- Ska följa med och ändra på databasens schema
+#### Max
+##### Har Gjort: 
+- 'Get' Rooms och Amenities från Accommodations
+- 'Delete' Accommodations
+##### Ska göra:
+- Fixa databas strukturen gällande packages och booking
+- hjälpa till med booking feature
+
+### Code Review
+#### Gått igenom: 
+##### Accommodations Features (Jacob/Max)
+- Patch
+- Delete
+- GetRooms
+- GetAmenities
+##### Transport Features (Tanya)
+- Get (WIP)
+- Delete (WIP)
+##### Login Features (Amir)
+- Get
+- Post
+- Delete
