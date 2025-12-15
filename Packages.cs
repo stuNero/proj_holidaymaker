@@ -2,12 +2,11 @@ namespace server;
 
 static class Packages
 {
-  public record Get_Data(int Id, string Name, string Description, decimal Price);
+  public record Get_Data(int Id, string Name, string Description, decimal Discount);
   public static async Task<List<Get_Data>> Get(Config config)
   {
     List<Get_Data> result = new();
-
-    string query = "SELECT id, name, description, price FROM packages";
+    string query = "SELECT id, name, description, discount FROM packages";
     using (var reader = await MySqlHelper.ExecuteReaderAsync(config.db, query))
     {
       while (reader.Read())
@@ -17,14 +16,14 @@ static class Packages
     }
     return result;
   }
-  public record Package_Data(string City, string Accommodation, string Transport, DateTime Departure, DateTime Arrival);
+  public record Package_Data(string City, string Accommodation, string Transport);
 
   public static async Task<List<Package_Data>> GetPackageDetails(int id, Config config)
   {
     List<Package_Data> result = new();
     string query =
     """ 
-    SELECT c.name, a.name, t.company, t.start_datetime, t.end_datetime
+    SELECT c.name, a.name, t.company
     FROM accommodation_per_package app
     JOIN accommodations a ON app.accommodation = a.id
     JOIN transport_per_package tpp ON tpp.package = app.package
@@ -37,7 +36,7 @@ static class Packages
     {
       while (reader.Read())
       {
-        result.Add(new(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetDateTime(3), reader.GetDateTime(4)));
+        result.Add(new(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
       }
     }
     return result;
