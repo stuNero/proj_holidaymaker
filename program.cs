@@ -36,6 +36,7 @@ app.MapGet("/login", Login.Get);
 
 app.MapGet("/packages", Packages.Get);
 app.MapGet("/packages/{id}", Packages.GetPackageDetails);
+app.MapPost("/packages", Packages.Post);
 
 // DB functions
 app.MapDelete("/db", db_reset_to_default);
