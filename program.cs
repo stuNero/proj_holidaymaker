@@ -1,5 +1,4 @@
 global using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Bcpg.Sig;
 using server;
 
 var builder = WebApplication.CreateBuilder(args);
