@@ -14,9 +14,6 @@ static class DBQueries
         DROP TABLE IF EXISTS accommodation_per_package;
         DROP TABLE IF EXISTS amenities_per_accommodation;
         DROP TABLE IF EXISTS accommodations;
-        DROP TABLE IF EXISTS transport_per_order;
-        DROP TABLE IF EXISTS transports;
-        DROP TABLE IF EXISTS transport_types;
         DROP TABLE IF EXISTS cities;
         DROP TABLE IF EXISTS countries;
         DROP TABLE IF EXISTS cuisines;
@@ -34,25 +31,29 @@ static class DBQueries
         """
             INSERT IGNORE INTO users (first_name, last_name, email, password, role)
             VALUES
-            ('Alice', 'Walker', 'alice.walker@example.com', 'hashed_pw_1', 'customer'),
-            ('Bob', 'Anderson', 'bob.anderson@example.com', 'hashed_pw_2', 'admin');
+            ('Alice', 'Walker', 'alice.walker@example.com', '123', 'customer'),
+            ('Bob', 'Anderson', 'bob.anderson@example.com', '123', 'admin');
 
             INSERT IGNORE INTO cuisines (name)
             VALUES
-            ('Italian'),
-            ('Japanese');
+            ('Mediterranian'),
+            ('Asian');
 
             INSERT IGNORE INTO countries (name, cuisine)
             VALUES
             ('Italy', 1),
+            ('Spain', 1),
+            ('Greece',1),
             ('Japan', 2);
 
             INSERT IGNORE INTO cities (name, country)
             VALUES
             ('Rome', 1),
+            ('Barcelona', 2),
+            ('Athens', 3),
             ('Milan', 1),
-            ('Tokyo', 2),
-            ('Osaka', 2);
+            ('Tokyo', 4),
+            ('Osaka', 4);
 
             INSERT IGNORE INTO accommodations (name, city, type)
             VALUES
@@ -73,26 +74,9 @@ static class DBQueries
             (3, 2),
             (4, 2);
 
-            INSERT IGNORE INTO transport_types (name)
-            VALUES
-            ('Flight'),
-            ('Train');
-
-            INSERT IGNORE INTO transports (type, start_city, end_city, company, price)
-            VALUES
-            (1, 1, 3, 'SkyWings Airlines', 350.00),
-            (1, 3, 1, 'SkyWings Airlines', 355.00),
-            (2, 1, 2, 'ItaliaRail', 45.00),
-            (2, 3, 4, 'Shinkansen Co', 80.00);
-
             INSERT IGNORE INTO orders (user, package, total_price)
             VALUES
             (1, 1, 899.99);
-
-            INSERT IGNORE INTO transport_per_order (transport, order_id)
-            VALUES
-            (1, 1),
-            (3, 1);
 
             INSERT IGNORE INTO rooms (name, sleep_spots, accommodation, price)
             VALUES
@@ -209,25 +193,6 @@ static class DBQueries
                 FOREIGN KEY (package) REFERENCES packages(id) ON DELETE CASCADE ON UPDATE CASCADE
             );
 
-            CREATE TABLE IF NOT EXISTS transport_types
-            (
-                id   INT PRIMARY KEY AUTO_INCREMENT,
-                name VARCHAR(255) UNIQUE
-            );
-
-            CREATE TABLE IF NOT EXISTS transports
-            (
-                id         INT PRIMARY KEY AUTO_INCREMENT,
-                type       INT NOT NULL,
-                start_city INT NOT NULL,
-                end_city   INT NOT NULL,
-                company    VARCHAR(255),
-                price      DECIMAL(10,2),
-                FOREIGN KEY (type) REFERENCES transport_types(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                FOREIGN KEY (start_city) REFERENCES cities(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                FOREIGN KEY (end_city) REFERENCES cities(id) ON DELETE RESTRICT ON UPDATE CASCADE
-            );
-
             CREATE TABLE IF NOT EXISTS orders
             (
                 id          INT PRIMARY KEY AUTO_INCREMENT,
@@ -237,16 +202,6 @@ static class DBQueries
                 FOREIGN KEY (user) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 FOREIGN KEY (package) REFERENCES packages(id) ON DELETE SET NULL ON UPDATE CASCADE,
                 UNIQUE (id, user)
-            );
-
-            CREATE TABLE IF NOT EXISTS transport_per_order
-            (
-                id        INT PRIMARY KEY AUTO_INCREMENT,
-                transport INT NOT NULL,
-                order_id  INT NOT NULL,
-                FOREIGN KEY (transport) REFERENCES transports(id) ON DELETE CASCADE ON UPDATE CASCADE,
-                FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE,
-                UNIQUE (transport, order_id)
             );
 
             CREATE TABLE IF NOT EXISTS rooms

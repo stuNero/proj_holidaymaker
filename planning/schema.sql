@@ -61,26 +61,6 @@ CREATE TABLE IF NOT EXISTS users
                 FOREIGN KEY (accommodation) REFERENCES accommodations(id) ON DELETE CASCADE ON UPDATE CASCADE,
                 FOREIGN KEY (package) REFERENCES packages(id) ON DELETE CASCADE ON UPDATE CASCADE
             );
-
-            CREATE TABLE IF NOT EXISTS transport_types
-            (
-                id   INT PRIMARY KEY AUTO_INCREMENT,
-                name VARCHAR(255) UNIQUE
-            );
-
-            CREATE TABLE IF NOT EXISTS transports
-            (
-                id         INT PRIMARY KEY AUTO_INCREMENT,
-                type       INT NOT NULL,
-                start_city INT NOT NULL,
-                end_city   INT NOT NULL,
-                company    VARCHAR(255),
-                price      DECIMAL(10,2),
-                FOREIGN KEY (type) REFERENCES transport_types(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                FOREIGN KEY (start_city) REFERENCES cities(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                FOREIGN KEY (end_city) REFERENCES cities(id) ON DELETE RESTRICT ON UPDATE CASCADE
-            );
-
             CREATE TABLE IF NOT EXISTS orders
             (
                 id          INT PRIMARY KEY AUTO_INCREMENT,
@@ -91,17 +71,6 @@ CREATE TABLE IF NOT EXISTS users
                 FOREIGN KEY (package) REFERENCES packages(id) ON DELETE SET NULL ON UPDATE CASCADE,
                 UNIQUE (id, user)
             );
-
-            CREATE TABLE IF NOT EXISTS transport_per_order
-            (
-                id        INT PRIMARY KEY AUTO_INCREMENT,
-                transport INT NOT NULL,
-                order_id  INT NOT NULL,
-                FOREIGN KEY (transport) REFERENCES transports(id) ON DELETE CASCADE ON UPDATE CASCADE,
-                FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE,
-                UNIQUE (transport, order_id)
-            );
-
             CREATE TABLE IF NOT EXISTS rooms
             (
                 id            INT PRIMARY KEY AUTO_INCREMENT,
