@@ -11,14 +11,12 @@ static class DBQueries
         DROP TABLE IF EXISTS booked_rooms;
         DROP TABLE IF EXISTS properties_per_room;
         DROP TABLE IF EXISTS rooms;
-        DROP TABLE IF EXISTS accommodation_per_package;
         DROP TABLE IF EXISTS amenities_per_accommodation;
         DROP TABLE IF EXISTS accommodations;
         DROP TABLE IF EXISTS cities;
         DROP TABLE IF EXISTS countries;
         DROP TABLE IF EXISTS cuisines;
         DROP TABLE IF EXISTS orders;
-        DROP TABLE IF EXISTS packages;
         DROP TABLE IF EXISTS users;
         DROP TABLE IF EXISTS room_properties;
         DROP TABLE IF EXISTS amenities;
@@ -29,22 +27,19 @@ static class DBQueries
     {
         string insertQueries =
         """
-            INSERT IGNORE INTO users (first_name, last_name, email, password, role)
-            VALUES
-            ('Alice', 'Walker', 'alice.walker@example.com', '123', 'customer'),
-            ('Bob', 'Anderson', 'bob.anderson@example.com', '123', 'admin');
-
             INSERT IGNORE INTO cuisines (name)
             VALUES
             ('Mediterranian'),
-            ('Asian');
+            ('Asian'),
+            ('Nordic');
 
             INSERT IGNORE INTO countries (name, cuisine)
             VALUES
             ('Italy', 1),
             ('Spain', 1),
             ('Greece',1),
-            ('Japan', 2);
+            ('Japan', 2),
+            ('Sweden', 3);
 
             INSERT IGNORE INTO cities (name, country)
             VALUES
@@ -53,43 +48,38 @@ static class DBQueries
             ('Athens', 3),
             ('Milan', 1),
             ('Tokyo', 4),
-            ('Osaka', 4);
+            ('Osaka', 4),
+            ('Göteborg', 5);
 
             INSERT IGNORE INTO accommodations (name, city, type)
             VALUES
-            ('Roma Central Hotel', 1, 'hotel'),
-            ('Milan Budget Hostel', 2, 'hostel'),
-            ('Tokyo Garden Motel', 3, 'motel'),
-            ('Osaka Riverside Hotel', 4, 'hotel');
-
-            INSERT IGNORE INTO packages (name, description, discount)
-            VALUES
-            ('Romantic Getaway Italy', '4 nights in Rome and Milan with breakfast included.', 10.00),
-            ('Japan Explorer', '7-day trip including Tokyo and Osaka stays.', 12.50);
-
-            INSERT IGNORE INTO accommodation_per_package (accommodation, package)
-            VALUES
-            (1, 1),
-            (2, 1),
-            (3, 2),
-            (4, 2);
-
-            INSERT IGNORE INTO orders (user, package, total_price)
-            VALUES
-            (1, 1, 899.99);
+            ('Best Western Barcelona', (select id from cities where name = "Barcelona"), 'hotel'),
+            ('Best Western Rome', (select id from cities where name = "Rome"), 'hotel'),
+            ('Best Western Athens', (select id from cities where name = "Athens"), 'hotel'),
+            ('Roma Central Hotel', (select id from cities where name = "Rome"), 'hotel'),
+            ('Milan Budget Hostel', (select id from cities where name = "Milan"), 'hostel'),
+            ('Tokyo Garden Motel', (select id from cities where name = "Tokyo"), 'motel'),
+            ('Osaka Riverside Hotel', (select id from cities where name = "Osaka"), 'hotel');
 
             INSERT IGNORE INTO rooms (name, sleep_spots, accommodation, price)
             VALUES
-            ('Double Room Classic', 2, 1, 120.00),
-            ('Suite Panoramica', 3, 1, 210.00),
-            ('Shared Dorm 6-bed', 6, 2, 30.00),
-            ('Standard Twin', 2, 3, 95.00),
-            ('Deluxe King', 2, 4, 150.00);
+            ('Single Room Classic', 1, (select id from accommodations where name = "Best Western Rome"), 120.00),
+            ('Double Room Classic', 2, (select id from accommodations where name = "Best Western Rome"), 160.00),
+            ('Triple Room Classic', 3, (select id from accommodations where name = "Best Western Rome"), 180.00),
 
-            INSERT IGNORE INTO booked_rooms (room_id, order_id, start_datetime, end_datetime)
-            VALUES
-            (1, 1, '2026-06-10 14:00:00', '2026-06-13 10:00:00'),
-            (3, 1, '2026-06-13 15:00:00', '2026-06-15 11:00:00');
+            ('Single Room Classic', 1, (select id from accommodations where name = "Best Western Barcelona"), 120.00),
+            ('Double Room Classic', 2, (select id from accommodations where name = "Best Western Barcelona"), 160.00),
+            ('Triple Room Classic', 3, (select id from accommodations where name = "Best Western Barcelona"), 180.00),
+
+            ('Single Room Classic', 1, (select id from accommodations where name = "Best Western Athens"), 120.00),
+            ('Double Room Classic', 2, (select id from accommodations where name = "Best Western Athens"), 160.00),
+            ('Triple Room Classic', 3, (select id from accommodations where name = "Best Western Athens"), 180.00),
+
+            ('Double Room Classic', 2, (select id from accommodations where name = "Roma Central Hotel"), 120.00),
+            ('Suite Panoramica',    3, (select id from accommodations where name = "Milan Budget Hostel"), 210.00),
+            ('Shared Dorm 6-bed',   6, (select id from accommodations where name = "Tokyo Garden Motel"), 30.00),
+            ('Standard Twin',       2, (select id from accommodations where name = "Osaka Riverside Hotel"), 95.00),
+            ('Deluxe King',         2, (select id from accommodations where name = "Osaka Riverside Hotel"), 150.00);
 
             INSERT IGNORE INTO room_properties (name)
             VALUES
@@ -107,7 +97,23 @@ static class DBQueries
             (3, 3),
             (4, 4),
             (5, 1),
-            (5, 3);
+            (5, 3),
+            (6, 2),
+            (7, 3),
+            (8, 1),
+            (9, 4),
+            (10, 3),
+            (11, 4),
+            (12, 1),
+            (13, 3),
+            (14, 2),
+            (6, 3),
+            (7, 1),
+            (8, 4),
+            (9, 3),
+            (10, 4),
+            (11, 1),
+            (12, 3);
 
             INSERT IGNORE INTO amenities (name)
             VALUES
@@ -125,7 +131,15 @@ static class DBQueries
             (1, 3),
             (4, 3),
             (1, 4),
-            (2, 4);
+            (2, 4),
+            (1, 5),
+            (2, 5),
+            (3, 5),
+            (1, 6),
+            (1, 6),
+            (4, 6),
+            (1, 7),
+            (2, 7);
         """;
         return insertQueries;
     }
@@ -175,33 +189,6 @@ static class DBQueries
                 type    ENUM('hotel', 'motel', 'hostel') DEFAULT 'hotel',
                 FOREIGN KEY (city) REFERENCES cities(id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 UNIQUE (city, name)
-            );
-
-            CREATE TABLE IF NOT EXISTS packages
-            (
-                id          INT PRIMARY KEY AUTO_INCREMENT,
-                name        VARCHAR(255) NOT NULL,
-                description TEXT NOT NULL,
-                discount    DECIMAL(5,2) NOT NULL
-            );
-
-            CREATE TABLE IF NOT EXISTS accommodation_per_package
-            (
-                accommodation INT NOT NULL,
-                package       INT NOT NULL,
-                FOREIGN KEY (accommodation) REFERENCES accommodations(id) ON DELETE CASCADE ON UPDATE CASCADE,
-                FOREIGN KEY (package) REFERENCES packages(id) ON DELETE CASCADE ON UPDATE CASCADE
-            );
-
-            CREATE TABLE IF NOT EXISTS orders
-            (
-                id          INT PRIMARY KEY AUTO_INCREMENT,
-                user        INT NOT NULL,
-                package     INT,
-                total_price DECIMAL(10,2),
-                FOREIGN KEY (user) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                FOREIGN KEY (package) REFERENCES packages(id) ON DELETE SET NULL ON UPDATE CASCADE,
-                UNIQUE (id, user)
             );
 
             CREATE TABLE IF NOT EXISTS rooms
