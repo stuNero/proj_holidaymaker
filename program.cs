@@ -15,6 +15,9 @@ builder.Services.AddSingleton(config);
 var app = builder.Build();
 app.UseSession();
 
+// DB functions
+app.MapDelete("/db", db_reset_to_default);
+
 // User Functions
 app.MapPost("/users", Users.Post);
 app.MapGet("/users", Users.GetAll);
@@ -42,9 +45,6 @@ app.MapDelete("/cuisines/{id}", Cuisines.Delete);
 app.MapPut("/cuisines/{id}", Cuisines.Put);
 app.MapPatch("/cuisines/{id}", Cuisines.Patch);
 
-
-// DB functions
-app.MapDelete("/db", db_reset_to_default);
 async Task db_reset_to_default()
 {
   await MySqlHelper.ExecuteNonQueryAsync(config.db, DBQueries.DropAllTable());
