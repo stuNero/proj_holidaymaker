@@ -203,7 +203,6 @@ static class DBQueries
 
             CREATE TABLE IF NOT EXISTS accommodation_per_package
             (
-                id            INT PRIMARY KEY AUTO_INCREMENT,
                 accommodation INT NOT NULL,
                 package       INT NOT NULL,
                 FOREIGN KEY (accommodation) REFERENCES accommodations(id) ON DELETE CASCADE ON UPDATE CASCADE,
