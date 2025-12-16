@@ -8,23 +8,23 @@ static class DBQueries
     {
         string query =
         """
-        DROP TABLE IF EXISTS orders;
-        DROP TABLE IF EXISTS users;
-        DROP TABLE IF EXISTS cuisines;
-        DROP TABLE IF EXISTS countries;
-        DROP TABLE IF EXISTS cities;
-        DROP TABLE IF EXISTS accommodations;
-        DROP TABLE IF EXISTS packages;
-        DROP TABLE IF EXISTS accommodation_per_package;
-        DROP TABLE IF EXISTS transport_types;
-        DROP TABLE IF EXISTS transports;
-        DROP TABLE IF EXISTS transport_per_order;
-        DROP TABLE IF EXISTS rooms;
         DROP TABLE IF EXISTS booked_rooms;
-        DROP TABLE IF EXISTS room_properties;
         DROP TABLE IF EXISTS properties_per_room;
-        DROP TABLE IF EXISTS amenities;
+        DROP TABLE IF EXISTS rooms;
+        DROP TABLE IF EXISTS accommodation_per_package;
         DROP TABLE IF EXISTS amenities_per_accommodation;
+        DROP TABLE IF EXISTS accommodations;
+        DROP TABLE IF EXISTS transport_per_order;
+        DROP TABLE IF EXISTS transports;
+        DROP TABLE IF EXISTS transport_types;
+        DROP TABLE IF EXISTS cities;
+        DROP TABLE IF EXISTS countries;
+        DROP TABLE IF EXISTS cuisines;
+        DROP TABLE IF EXISTS orders;
+        DROP TABLE IF EXISTS packages;
+        DROP TABLE IF EXISTS users;
+        DROP TABLE IF EXISTS room_properties;
+        DROP TABLE IF EXISTS amenities;
         """;
         return query;
     }
