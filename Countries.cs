@@ -40,4 +40,32 @@ static class Countries
     }
     return result;
   }
+
+
+
+  // Get By ID
+  public record Get_Data(int Id, string Name, string Cuisine);
+  public static async Task<Get_Data?> Get(int id, Config config)
+  {
+    Get_Data? result = null;
+    string query = """
+    SELECT c.id, c.name, cuisines.name
+    FROM countries c
+    INNER JOIN cuisines 
+    ON cuisines.id = c.cuisine
+    WHERE c.id = @id
+    """;
+    var parameter = new MySqlParameter[]
+    {
+      new("@id", id)
+    };
+    using (var reader = await MySqlHelper.ExecuteReaderAsync(config.db, query, parameter))
+    {
+      if (reader.Read())
+      {
+        result = new(reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
+      }
+    }
+    return result;
+  }
 }
