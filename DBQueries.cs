@@ -8,7 +8,8 @@ static class DBQueries
     {
         string query =
         """
-        DROP TABLE IF EXISTS booked_rooms;
+        DROP VIEW IF EXISTS booked_rooms;
+        DROP TABLE IF EXISTS bookings_per_rooms;
         DROP TABLE IF EXISTS properties_per_room;
         DROP TABLE IF EXISTS rooms;
         DROP TABLE IF EXISTS amenities_per_accommodation;
@@ -80,6 +81,10 @@ static class DBQueries
             ('Shared Dorm 6-bed',   6, (select id from accommodations where name = "Tokyo Garden Motel"), 30.00),
             ('Standard Twin',       2, (select id from accommodations where name = "Osaka Riverside Hotel"), 95.00),
             ('Deluxe King',         2, (select id from accommodations where name = "Osaka Riverside Hotel"), 150.00);
+
+            INSERT IGNORE INTO bookings_per_rooms (room, check_in,check_out)
+            VALUES
+            (1, "2025-11-27","2025-11-30");
 
             INSERT IGNORE INTO room_properties (name)
             VALUES
@@ -201,16 +206,14 @@ static class DBQueries
                 FOREIGN KEY (accommodation) REFERENCES accommodations(id) ON DELETE CASCADE ON UPDATE CASCADE
             );
 
-            CREATE TABLE IF NOT EXISTS booked_rooms
+            CREATE TABLE IF NOT EXISTS bookings_per_rooms
             (
-                id             INT PRIMARY KEY AUTO_INCREMENT,
-                room_id        INT NOT NULL,
-                order_id       INT NOT NULL,
-                start_datetime DATETIME,
-                end_datetime   DATETIME,
-                FOREIGN KEY (room_id) REFERENCES rooms(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE,
-                UNIQUE (room_id, start_datetime, end_datetime)
+                id          INT PRIMARY KEY AUTO_INCREMENT,
+                room        INT NOT NULL,
+                check_in    DATE,
+                check_out   DATE,
+                FOREIGN KEY (room) REFERENCES rooms(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                UNIQUE (room, check_in, check_out)
             );
 
             CREATE TABLE IF NOT EXISTS room_properties
@@ -244,6 +247,11 @@ static class DBQueries
                 FOREIGN KEY (accommodation) REFERENCES accommodations(id) ON DELETE CASCADE ON UPDATE CASCADE,
                 UNIQUE (amenity, accommodation)
             );
+            
+            CREATE OR REPLACE VIEW booked_rooms AS
+            SELECT r.id, name, sleep_spots, price, accommodation, check_in, check_out
+            FROM bookings_per_rooms x
+            JOIN rooms r ON x.room = r.id;
        """;
         return createQueries;
     }

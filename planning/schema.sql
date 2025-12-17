@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS users
                 FOREIGN KEY (accommodation) REFERENCES accommodations(id) ON DELETE CASCADE ON UPDATE CASCADE
             );
 
-            CREATE TABLE IF NOT EXISTS booked_rooms
+            CREATE TABLE IF NOT EXISTS bookings_per_rooms
             (
                 id             INT PRIMARY KEY AUTO_INCREMENT,
                 room_id        INT NOT NULL,
