@@ -478,3 +478,19 @@
 ## Notes
 - Hur kopplar man accommodations och transport till en package i en enda metod
 - Dubbelchecka schema
+
+# 2025-12-17
+## Morgon
+### Standup
+#### Amir (ej närvarande)
+##### Har gjort:
+- Cuisines features
+#### Pierino & Max
+##### Har gjort:
+- Gjorde om databas schemat, tog bort packages, transport och bookings för tillfället
+- Skrev kod för Booking klassen
+- Mycket brainstorming
+##### Ska göra till lunch:
+- Göra klart CheckAvailability
+- Funktion för att boka rum
+- 
