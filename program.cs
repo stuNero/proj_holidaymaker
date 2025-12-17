@@ -29,6 +29,10 @@ app.MapDelete("/accommodations/{id}", Accommodations.Delete);
 app.MapGet("/accommodations/{id}/rooms", Accommodations.GetRooms);
 app.MapGet("/accommodations/{id}/amenities", Accommodations.GetAmenities);
 
+// Rooms functions
+app.MapGet("/rooms/{id}", Rooms.Get);
+app.MapGet("/properties/{id}", Rooms.GetProperties);
+
 // Login functions
 app.MapPost("/login", Login.Post);
 app.MapDelete("/login", Login.Delete);
