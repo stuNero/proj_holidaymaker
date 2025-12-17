@@ -223,7 +223,7 @@ static class DBQueries
                 check_out   DATE,
                 FOREIGN KEY (room) REFERENCES rooms(id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 FOREIGN KEY (booking) REFERENCES bookings(id),
-                UNIQUE (room, check_in, check_out)
+                UNIQUE (room, booking, check_in, check_out)
             );
 
             CREATE TABLE IF NOT EXISTS room_properties
