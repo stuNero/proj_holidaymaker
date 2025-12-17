@@ -48,7 +48,8 @@ app.MapPatch("/cuisines/{id}", Cuisines.Patch);
 
 // Booking functions
 app.MapGet("/bookings/availability", Booking.CheckAvailability);
-app.MapPost("/bookings/book", Booking.BookRoom);
+app.MapPost("/bookings/bookroom", Booking.BookRoom);
+app.MapPost("/bookings/book",Booking.Book);
 
 async Task db_reset_to_default()
 {
