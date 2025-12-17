@@ -29,7 +29,7 @@ app.MapDelete("/accommodations/{id}", Accommodations.Delete);
 app.MapGet("/accommodations/{id}/rooms", Accommodations.GetRooms);
 app.MapGet("/accommodations/{id}/amenities", Accommodations.GetAmenities);
 
-// Login functions
+// Login Functions
 app.MapPost("/login", Login.Post);
 app.MapDelete("/login", Login.Delete);
 app.MapGet("/login", Login.Get);
@@ -39,6 +39,15 @@ app.MapGet("/packages/{id}", Packages.GetPackageDetails);
 app.MapPost("/packages", Packages.Post);
 app.MapPost("/packages/acpepa", Packages.PostAcPePa);
 app.MapPost("/packages/trapepa", Packages.PostTraPePa);
+
+// Cusinies Functions
+app.MapPost("/cuisines", Cuisines.Post);
+app.MapGet("/cuisines", Cuisines.GetAll);
+app.MapGet("/cuisines/{id}", Cuisines.Get);
+app.MapDelete("/cuisines/{id}", Cuisines.Delete);
+app.MapPut("/cuisines/{id}", Cuisines.Put);
+app.MapPatch("/cuisines/{id}", Cuisines.Patch);
+
 
 // DB functions
 app.MapDelete("/db", db_reset_to_default);

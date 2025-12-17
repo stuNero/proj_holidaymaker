@@ -449,16 +449,32 @@
 - hjälpa till med booking feature
 
 ### Code Review
-#### Gått igenom: 
-##### Accommodations Features (Jacob/Max)
+#### Accommodations Features (Jacob/Max)
 - Patch
 - Delete
 - GetRooms
 - GetAmenities
-##### Transport Features (Tanya)
+#### Transport Features (Tanya)
 - Get (WIP)
 - Delete (WIP)
-##### Login Features (Amir)
+#### Login Features (Amir)
 - Get
 - Post
 - Delete
+
+## Eftermiddag
+### Code Review
+#### Cuisines Features (Amir)
+- Post
+- Get
+#### Package Features (Pierino)
+- Post, med relaterade funktioner
+- Ändrat Constraints i CRUD
+#### Accommodations Features (Jacob)
+- Put 
+#### Rooms Features (Jacob)
+- Get
+- GetProperties
+## Notes
+- Hur kopplar man accommodations och transport till en package i en enda metod
+- Dubbelchecka schema
