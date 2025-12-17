@@ -490,7 +490,14 @@
 - Gjorde om databas schemat, tog bort packages, transport och bookings för tillfället
 - Skrev kod för Booking klassen
 - Mycket brainstorming
-##### Ska göra till lunch:
+##### Ska göra till middag:
 - Göra klart CheckAvailability
 - Funktion för att boka rum
-- 
+## Eftermiddag
+#### Pierino & Max
+##### Har Gjort:
+- Gjort klart CheckAvailability
+- Gjort klart BookRoom
+##### Ska göra:
+- Kolla på ev. Fel
+- Försöka koppla användare till bokningar
