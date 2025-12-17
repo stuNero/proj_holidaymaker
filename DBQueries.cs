@@ -17,7 +17,7 @@ static class DBQueries
         DROP TABLE IF EXISTS cities;
         DROP TABLE IF EXISTS countries;
         DROP TABLE IF EXISTS cuisines;
-        DROP TABLE IF EXISTS orders;
+        DROP TABLE IF EXISTS bookings;
         DROP TABLE IF EXISTS users;
         DROP TABLE IF EXISTS room_properties;
         DROP TABLE IF EXISTS amenities;
@@ -28,6 +28,7 @@ static class DBQueries
     {
         string insertQueries =
         """
+        
             INSERT IGNORE INTO cuisines (name)
             VALUES
             ('Mediterranian'),
@@ -205,14 +206,23 @@ static class DBQueries
                 price         DECIMAL(10,2),
                 FOREIGN KEY (accommodation) REFERENCES accommodations(id) ON DELETE CASCADE ON UPDATE CASCADE
             );
-
+            CREATE TABLE IF NOT EXISTS bookings
+            (
+                id          INT PRIMARY KEY AUTO_INCREMENT,
+                user        INT NOT NULL,
+                total_price DECIMAL(10,2) DEFAULT(0.00),
+                FOREIGN KEY (user) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                UNIQUE (id, user)
+            );
             CREATE TABLE IF NOT EXISTS bookings_per_rooms
             (
                 id          INT PRIMARY KEY AUTO_INCREMENT,
                 room        INT NOT NULL,
+                booking     INT,
                 check_in    DATE,
                 check_out   DATE,
                 FOREIGN KEY (room) REFERENCES rooms(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                FOREIGN KEY (booking) REFERENCES bookings(id),
                 UNIQUE (room, check_in, check_out)
             );
 

@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS users
                 FOREIGN KEY (city) REFERENCES cities(id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 UNIQUE (city, name)
             );
+
             CREATE TABLE IF NOT EXISTS rooms
             (
                 id            INT PRIMARY KEY AUTO_INCREMENT,
@@ -54,17 +55,24 @@ CREATE TABLE IF NOT EXISTS users
                 price         DECIMAL(10,2),
                 FOREIGN KEY (accommodation) REFERENCES accommodations(id) ON DELETE CASCADE ON UPDATE CASCADE
             );
-
+            CREATE TABLE IF NOT EXISTS bookings
+            (
+                id          INT PRIMARY KEY AUTO_INCREMENT,
+                user        INT NOT NULL,
+                total_price DECIMAL(10,2) DEFAULT(0.00),
+                FOREIGN KEY (user) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                UNIQUE (id, user)
+            );
             CREATE TABLE IF NOT EXISTS bookings_per_rooms
             (
-                id             INT PRIMARY KEY AUTO_INCREMENT,
-                room_id        INT NOT NULL,
-                order_id       INT NOT NULL,
-                start_datetime DATETIME,
-                end_datetime   DATETIME,
-                FOREIGN KEY (room_id) REFERENCES rooms(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE,
-                UNIQUE (room_id, start_datetime, end_datetime)
+                id          INT PRIMARY KEY AUTO_INCREMENT,
+                room        INT NOT NULL,
+                booking     INT NOT NULL,
+                check_in    DATE,
+                check_out   DATE,
+                FOREIGN KEY (room) REFERENCES rooms(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                FOREIGN KEY (booking) REFERENCES bookings(id),
+                UNIQUE (room, check_in, check_out)
             );
 
             CREATE TABLE IF NOT EXISTS room_properties
@@ -98,4 +106,9 @@ CREATE TABLE IF NOT EXISTS users
                 FOREIGN KEY (accommodation) REFERENCES accommodations(id) ON DELETE CASCADE ON UPDATE CASCADE,
                 UNIQUE (amenity, accommodation)
             );
+            
+            CREATE OR REPLACE VIEW booked_rooms AS
+            SELECT r.id, name, sleep_spots, price, accommodation, check_in, check_out
+            FROM bookings_per_rooms x
+            JOIN rooms r ON x.room = r.id;
 ``` 
