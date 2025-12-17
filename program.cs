@@ -48,6 +48,7 @@ app.MapPatch("/cuisines/{id}", Cuisines.Patch);
 
 // Booking functions
 app.MapGet("/bookings/availability", Booking.CheckAvailability);
+
 async Task db_reset_to_default()
 {
   await MySqlHelper.ExecuteNonQueryAsync(config.db, DBQueries.DropAllTable());
