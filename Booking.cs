@@ -35,4 +35,31 @@ static class Booking
         }    
         return results;
     }
+    public record Success(bool success, string txt);
+    public static async Task<bool> BookRoom(int roomId, DateOnly checkIn, DateOnly checkOut, Config config)
+    {
+        string query = 
+        """
+        INSERT INTO bookings_per_rooms (room, check_in, check_out)
+        VALUES
+        (@id, @checkIn, @checkOut)
+        """;
+        var parameter = new MySqlParameter[] 
+        {
+            new("@id", roomId),
+            new("@checkIn",checkIn),
+            new("@checkOut",checkOut)
+        };
+
+        int check = await MySqlHelper.ExecuteNonQueryAsync(config.db, query,parameter);
+
+        if (check == 0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 }
