@@ -39,9 +39,13 @@ static class Booking
         return results;
     }
     public record Success(bool success, string txt);
-    public static async Task<bool> BookRoom(int accommodationId, int roomId, DateOnly checkIn, DateOnly checkOut, Config config)
+    public static async Task<bool> BookRoom(int accommodationId, int roomId, DateOnly checkIn, DateOnly checkOut, Config config, HttpContext ctx)
     {
-        // återanvänd kod från checkavailability....
+        if (ctx.Session.GetInt32("user_id") == null) 
+        {
+            return false;
+        }
+            
         List<Available_Rooms> availableRooms = new();
 
         string findAvailabilityQuery =
