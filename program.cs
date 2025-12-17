@@ -42,6 +42,10 @@ app.MapDelete("/cuisines/{id}", Cuisines.Delete);
 app.MapPut("/cuisines/{id}", Cuisines.Put);
 app.MapPatch("/cuisines/{id}", Cuisines.Patch);
 
+// Countries Functions
+app.MapPost("/countries", Countries.Post);
+
+
 
 // DB functions
 app.MapDelete("/db", db_reset_to_default);
