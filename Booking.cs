@@ -62,7 +62,7 @@ static class Booking
         SELECT last_insert_id() FROM bookings
         WHERE user = @user_id;
         """;
-        using (var reader = await MySqlHelper.ExecuteReaderAsync(config.db, getBookingIdQuery))
+        using (var reader = await MySqlHelper.ExecuteReaderAsync(config.db, getBookingIdQuery, createParameter))
         {
             while (reader.Read())
             {
@@ -184,49 +184,60 @@ static class Booking
         }
         return false;
     }
-    /*  public record RoomOverview(
-         string roomName, DateTime check_in, DateTime check_out, int price,
-         string accName, string cityName, string countryName);
-     public record Booking_Data(int id, decimal total_price);
-     public record Booking_X_Room(int id, List<RoomOverview> rooms, decimal total_price);
-     public static async Task<Dictionary<Booking_Data, List<RoomOverview>>> Overview(Config config, HttpContext ctx)
-     {
-         Dictionary<Booking_Data, List<RoomOverview>> roomsPerBooking = new();
-         string query =
-         """
-         SELECT b.id, b.total_price, r.name, bxr.check_in, bxr.check_out,
-             r.price, a.name, ci.name, co.name
-             FROM bookings_per_rooms bxr
-             JOIN bookings b ON bxr.booking = b.id
-             JOIN rooms r ON bxr.room = r.id
-             JOIN accommodations a ON r.accommodation = a.id
-             JOIN cities ci ON a.city = ci.id
-             JOIN countries co ON ci.country = co.id
-         WHERE b.user = @user_id;
-         """;
-         var parameters = new MySqlParameter[]
-         {
-             new("@user_id", ctx.Session.GetInt32("user_id")),
-         };
-         using (var reader = await MySqlHelper.ExecuteReaderAsync(config.db, query, parameters))
-         {
-             Booking_Data? bookingData = null;
+    public record RoomOverview(
+        string roomName, DateOnly checkIn, DateOnly checkOut, int price,
+        string accName, string cityName, string countryName);
+    public record Booking_Data(int id, decimal totalPrice);
+    public record Booking_X_Room(int bookingid, List<RoomOverview> rooms, decimal totalPrice);
+    public static async Task<List<Booking_X_Room>> Overview(Config config, HttpContext ctx)
+    {
+        Dictionary<Booking_Data, List<RoomOverview>> roomsPerBooking = new();
+        List<Booking_X_Room> result = new();
+        string query =
+        """
+        SELECT b.id, b.total_price, r.name, bxr.check_in, bxr.check_out,
+            r.price, a.name, ci.name, co.name
+            FROM bookings_per_rooms bxr
+            JOIN bookings b ON bxr.booking = b.id
+            JOIN rooms r ON bxr.room = r.id
+            JOIN accommodations a ON r.accommodation = a.id
+            JOIN cities ci ON a.city = ci.id
+            JOIN countries co ON ci.country = co.id
+        WHERE b.user = @user_id;
+        """;
+        var parameters = new MySqlParameter[]
+        {
+            new("@user_id", ctx.Session.GetInt32("user_id")),
+        };
+        using (var reader = await MySqlHelper.ExecuteReaderAsync(config.db, query, parameters))
+        {
+            Booking_Data? bookingData = null;
 
-             while (reader.Read())
-             {
-                 bookingData = new(reader.GetInt32(0), reader.GetDecimal(1));
+            while (reader.Read())
+            {
+                // Extracts booking id and totalprice as dictionary key
+                bookingData = new(reader.GetInt32(0), reader.GetDecimal(1));
 
-                 if (!roomsPerBooking.ContainsKey(bookingData))
-                 {
-                     roomsPerBooking[bookingData] = new();
-                 }
-                 RoomOverview roomOverview = new(reader.GetString(2), reader.GetDateTime(3), reader.GetDateTime(4),
-                 reader.GetInt32(5), reader.GetString(6), reader.GetString(7), reader.GetString(8));
+                if (!roomsPerBooking.ContainsKey(bookingData))
+                {
+                    roomsPerBooking[bookingData] = new();
+                }
+                // Extracts room, name, checkin, checkout, roomprice, accommodation name, city name and country name as key's value
+                RoomOverview roomOverview = new(reader.GetString(2), DateOnly.FromDateTime(reader.GetDateTime(3)), DateOnly.FromDateTime(reader.GetDateTime(4)),
+                reader.GetInt32(5), reader.GetString(6), reader.GetString(7), reader.GetString(8));
 
-                 roomsPerBooking[bookingData].Add(roomOverview);
-             }
-         }
-         List<List<RoomOverview>> list = new();
-         return roomsPerBooking;
-     } */
+                // Merges key and value in dictionary
+                roomsPerBooking[bookingData].Add(roomOverview);
+            }
+        }
+        // Unzips dictionary 
+        foreach ((Booking_Data booking, List<RoomOverview> roomList) in roomsPerBooking)
+        {
+            // zips booking id, rooms per booking and totalprice into one object
+            Booking_X_Room temp = new(booking.id, roomList, booking.totalPrice);
+            // Puts that object into list
+            result.Add(temp);
+        }
+        return result;
+    }
 }
