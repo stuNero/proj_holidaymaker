@@ -46,62 +46,6 @@ CREATE TABLE IF NOT EXISTS users
                 UNIQUE (city, name)
             );
 
-            CREATE TABLE IF NOT EXISTS packages
-            (
-                id          INT PRIMARY KEY AUTO_INCREMENT,
-                name        VARCHAR(255) NOT NULL,
-                description TEXT NOT NULL,
-                discount    DECIMAL(5,2) NOT NULL
-            );
-
-            CREATE TABLE IF NOT EXISTS accommodation_per_package
-            (
-                accommodation INT NOT NULL,
-                package       INT NOT NULL,
-                FOREIGN KEY (accommodation) REFERENCES accommodations(id) ON DELETE CASCADE ON UPDATE CASCADE,
-                FOREIGN KEY (package) REFERENCES packages(id) ON DELETE CASCADE ON UPDATE CASCADE
-            );
-
-            CREATE TABLE IF NOT EXISTS transport_types
-            (
-                id   INT PRIMARY KEY AUTO_INCREMENT,
-                name VARCHAR(255) UNIQUE
-            );
-
-            CREATE TABLE IF NOT EXISTS transports
-            (
-                id         INT PRIMARY KEY AUTO_INCREMENT,
-                type       INT NOT NULL,
-                start_city INT NOT NULL,
-                end_city   INT NOT NULL,
-                company    VARCHAR(255),
-                price      DECIMAL(10,2),
-                FOREIGN KEY (type) REFERENCES transport_types(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                FOREIGN KEY (start_city) REFERENCES cities(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                FOREIGN KEY (end_city) REFERENCES cities(id) ON DELETE RESTRICT ON UPDATE CASCADE
-            );
-
-            CREATE TABLE IF NOT EXISTS orders
-            (
-                id          INT PRIMARY KEY AUTO_INCREMENT,
-                user        INT NOT NULL,
-                package     INT,
-                total_price DECIMAL(10,2),
-                FOREIGN KEY (user) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                FOREIGN KEY (package) REFERENCES packages(id) ON DELETE SET NULL ON UPDATE CASCADE,
-                UNIQUE (id, user)
-            );
-
-            CREATE TABLE IF NOT EXISTS transport_per_order
-            (
-                id        INT PRIMARY KEY AUTO_INCREMENT,
-                transport INT NOT NULL,
-                order_id  INT NOT NULL,
-                FOREIGN KEY (transport) REFERENCES transports(id) ON DELETE CASCADE ON UPDATE CASCADE,
-                FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE,
-                UNIQUE (transport, order_id)
-            );
-
             CREATE TABLE IF NOT EXISTS rooms
             (
                 id            INT PRIMARY KEY AUTO_INCREMENT,
@@ -111,17 +55,24 @@ CREATE TABLE IF NOT EXISTS users
                 price         DECIMAL(10,2),
                 FOREIGN KEY (accommodation) REFERENCES accommodations(id) ON DELETE CASCADE ON UPDATE CASCADE
             );
-
-            CREATE TABLE IF NOT EXISTS booked_rooms
+            CREATE TABLE IF NOT EXISTS bookings
             (
-                id             INT PRIMARY KEY AUTO_INCREMENT,
-                room_id        INT NOT NULL,
-                order_id       INT NOT NULL,
-                start_datetime DATETIME,
-                end_datetime   DATETIME,
-                FOREIGN KEY (room_id) REFERENCES rooms(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE,
-                UNIQUE (room_id, start_datetime, end_datetime)
+                id          INT PRIMARY KEY AUTO_INCREMENT,
+                user        INT NOT NULL,
+                total_price DECIMAL(10,2) DEFAULT(0.00),
+                FOREIGN KEY (user) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                UNIQUE (id, user)
+            );
+            CREATE TABLE IF NOT EXISTS bookings_per_rooms
+            (
+                id          INT PRIMARY KEY AUTO_INCREMENT,
+                room        INT NOT NULL,
+                booking     INT NOT NULL,
+                check_in    DATE,
+                check_out   DATE,
+                FOREIGN KEY (room) REFERENCES rooms(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                FOREIGN KEY (booking) REFERENCES bookings(id),
+                UNIQUE (room, check_in, check_out)
             );
 
             CREATE TABLE IF NOT EXISTS room_properties
@@ -155,4 +106,9 @@ CREATE TABLE IF NOT EXISTS users
                 FOREIGN KEY (accommodation) REFERENCES accommodations(id) ON DELETE CASCADE ON UPDATE CASCADE,
                 UNIQUE (amenity, accommodation)
             );
+            
+            CREATE OR REPLACE VIEW booked_rooms AS
+            SELECT r.id, name, sleep_spots, price, accommodation, check_in, check_out
+            FROM bookings_per_rooms x
+            JOIN rooms r ON x.room = r.id;
 ``` 
