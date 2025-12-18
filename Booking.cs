@@ -170,7 +170,7 @@ static class Booking
             {
                 foreach (Rooms_To_Book room in list)
                 {
-                    if (room.roomId == roomId)
+                    if (room.roomId == roomId) // add date check 
                     {
                         foundRoom = true;
                     }
@@ -184,4 +184,49 @@ static class Booking
         }
         return false;
     }
+    /*  public record RoomOverview(
+         string roomName, DateTime check_in, DateTime check_out, int price,
+         string accName, string cityName, string countryName);
+     public record Booking_Data(int id, decimal total_price);
+     public record Booking_X_Room(int id, List<RoomOverview> rooms, decimal total_price);
+     public static async Task<Dictionary<Booking_Data, List<RoomOverview>>> Overview(Config config, HttpContext ctx)
+     {
+         Dictionary<Booking_Data, List<RoomOverview>> roomsPerBooking = new();
+         string query =
+         """
+         SELECT b.id, b.total_price, r.name, bxr.check_in, bxr.check_out,
+             r.price, a.name, ci.name, co.name
+             FROM bookings_per_rooms bxr
+             JOIN bookings b ON bxr.booking = b.id
+             JOIN rooms r ON bxr.room = r.id
+             JOIN accommodations a ON r.accommodation = a.id
+             JOIN cities ci ON a.city = ci.id
+             JOIN countries co ON ci.country = co.id
+         WHERE b.user = @user_id;
+         """;
+         var parameters = new MySqlParameter[]
+         {
+             new("@user_id", ctx.Session.GetInt32("user_id")),
+         };
+         using (var reader = await MySqlHelper.ExecuteReaderAsync(config.db, query, parameters))
+         {
+             Booking_Data? bookingData = null;
+
+             while (reader.Read())
+             {
+                 bookingData = new(reader.GetInt32(0), reader.GetDecimal(1));
+
+                 if (!roomsPerBooking.ContainsKey(bookingData))
+                 {
+                     roomsPerBooking[bookingData] = new();
+                 }
+                 RoomOverview roomOverview = new(reader.GetString(2), reader.GetDateTime(3), reader.GetDateTime(4),
+                 reader.GetInt32(5), reader.GetString(6), reader.GetString(7), reader.GetString(8));
+
+                 roomsPerBooking[bookingData].Add(roomOverview);
+             }
+         }
+         List<List<RoomOverview>> list = new();
+         return roomsPerBooking;
+     } */
 }
