@@ -68,4 +68,32 @@ static class Countries
     }
     return result;
   }
+
+
+
+  // Delete 
+  public record Delete_Response(bool Success, string Message);
+  public static async Task<Delete_Response> Delete(int id, Config config)
+  {
+    Delete_Response? result = null;
+    string query = """
+      DELETE FROM countries
+      WHERE id = @id
+      """;
+    var parameter = new MySqlParameter[]
+    {
+      new("@id", id)
+    };
+
+    int rows_deleted = await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameter);
+    if (rows_deleted == 0)
+    {
+      return result = new(false, $"Requested ID [{id}] was not found!");
+    }
+    else
+    {
+      return result = new(true, $"Requested country with ID [{id}] is deleted!");
+    }
+
+  }
 }
