@@ -8,7 +8,7 @@ static class Booking
 {
     public static Dictionary<int, List<Rooms_To_Book>> usersWithBookedRooms = new();
     public record Available_Rooms(int roomId, string name, int sleepSpots, decimal price);
-    public static async Task<List<Available_Rooms>> CheckAvailability(int accommodationId, DateOnly checkIn, DateOnly checkOut, Config config)
+    public static async Task<List<Available_Rooms>> CheckAvailability(int accommodationId, DateTime checkIn, DateTime checkOut, Config config)
     {
         List<Available_Rooms> results = new();
 
@@ -23,7 +23,7 @@ static class Booking
         OR (check_in BETWEEN @checkIn AND @checkOut)
         OR (check_out BETWEEN @checkIn AND @checkOut));
         """;
-        var parameter = new MySqlParameter[] 
+        var parameter = new MySqlParameter[]
         {
             new ("@id", accommodationId),
             new ("@checkIn", checkIn),
@@ -36,55 +36,39 @@ static class Booking
             {
                 results.Add(new(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2), reader.GetDecimal(3)));
             }
-        }    
+        }
         return results;
     }
-    public record Rooms_To_Book(int roomId, DateOnly checkIn, DateOnly checkOut);
+    public record Rooms_To_Book(int roomId, DateTime checkIn, DateTime checkOut);
     public static async Task<bool> Book(Config config, HttpContext ctx)
     {
-        if (ctx.Session.GetInt32("user_id") == null) 
+        if (ctx.Session.GetInt32("user_id") == null)
         {
             return false;
         }
         int bookingID = 0;
-        string createBookingQuery = 
+        string createBookingQuery =
         """
         INSERT INTO bookings (user)
         VALUES
         (@user_id);
         """;
-        var createParameter = new MySqlParameter[] {new("@user_id",ctx.Session.GetInt32("user_id"))};
+        var createParameter = new MySqlParameter[] { new("@user_id", ctx.Session.GetInt32("user_id")) };
 
         await MySqlHelper.ExecuteNonQueryAsync(config.db, createBookingQuery, createParameter);
 
-        string getBookingIdQuery = 
+        string getBookingIdQuery =
         """
-        SELECT last_insert_id() FROM bookings;
+        SELECT last_insert_id() FROM bookings
+        WHERE user = @user_id;
         """;
         using (var reader = await MySqlHelper.ExecuteReaderAsync(config.db, getBookingIdQuery))
         {
-            while(reader.Read()) // löser problemet
+            while (reader.Read())
             {
                 bookingID = reader.GetInt32(0);
             }
-            /*
-            MySql.Data.MySqlClient.MySqlException (0x80004005): Invalid attempt to access a field before calling Read()
-            at MySql.Data.MySqlClient.ResultSet.get_Item(Int32 index)
-            at MySql.Data.MySqlClient.MySqlDataReader.GetFieldValue(Int32 index, Boolean checkNull)
-            at MySql.Data.MySqlClient.MySqlDataReader.GetInt32(Int32 i)
-            at server.Booking.Book(Config config, HttpContext ctx) in C:\Users\maxve\repos\proj_holidaymaker\Booking.cs:line 66
-            at Microsoft.AspNetCore.Http.RequestDelegateFactory.<ExecuteTaskOfTFast>g__ExecuteAwaited|132_0[T](Task`1 task, HttpContext httpContext, JsonTypeInfo`1 jsonTypeInfo)
-            at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
-            at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
-            at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
-            */
         }
-        /*
-        1. Skapa ett bookingID i kod
-        2. Kolla om det finns i tabellen
-        3. om det finns byt ut mot nytt
-        4. gå vidare
-        */
 
         foreach ((int user, List<Rooms_To_Book> list) in usersWithBookedRooms)
         {
@@ -92,13 +76,19 @@ static class Booking
             {
                 foreach (Rooms_To_Book room in list)
                 {
-                    string query = 
+                    string query =
                     """
                     INSERT INTO bookings_per_rooms (room, booking, check_in, check_out)
                     VALUES
-                    (@id, @bookingid, @checkIn, @checkOut)
+                    (@id, @bookingid, @checkIn, @checkOut);
+
+                    UPDATE bookings
+                    SET total_price = total_price + (SELECT price
+                        FROM rooms
+                        WHERE id = @id)
+                    WHERE id = @bookingid;
                     """;
-                    var parameter = new MySqlParameter[] 
+                    var parameter = new MySqlParameter[]
                     {
                         new("@id", room.roomId),
                         new("@bookingid", bookingID),
@@ -106,7 +96,7 @@ static class Booking
                         new("@checkOut",room.checkOut)
                     };
 
-                    await MySqlHelper.ExecuteNonQueryAsync(config.db, query,parameter);
+                    await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameter);
                 }
             }
         }
@@ -121,13 +111,13 @@ static class Booking
             return false;
         }
     }
-    public static async Task<bool> BookRoom(int accommodationId, int roomId, DateOnly checkIn, DateOnly checkOut, Config config, HttpContext ctx)
+    public static async Task<bool> BookRoom(int accommodationId, int roomId, DateTime checkIn, DateTime checkOut, Config config, HttpContext ctx)
     {
-        if (ctx.Session.GetInt32("user_id") == null) 
+        if (ctx.Session.GetInt32("user_id") == null)
         {
             return false;
         }
-            
+
         List<Available_Rooms> availableRooms = new();
 
         string findAvailabilityQuery =
@@ -141,7 +131,7 @@ static class Booking
         OR (check_in BETWEEN @checkIn AND @checkOut)
         OR (check_out BETWEEN @checkIn AND @checkOut));
         """;
-        var availabilityParameter = new MySqlParameter[] 
+        var availabilityParameter = new MySqlParameter[]
         {
             new ("@id", accommodationId),
             new ("@checkIn", checkIn),
@@ -171,14 +161,30 @@ static class Booking
         var sessionID = ctx.Session.GetInt32("user_id");
         if (sessionID is int sID)
         {
+            bool foundRoom = false;
             if (!usersWithBookedRooms.ContainsKey(sID))
             {
                 usersWithBookedRooms[sID] = new();
             }
-            usersWithBookedRooms[sID].Add(new(roomId, checkIn,checkOut));
-            return true;
+            foreach ((int key, List<Rooms_To_Book> list) in usersWithBookedRooms)
+            {
+                if (key == sID)
+                {
+                    foreach (Rooms_To_Book room in list)
+                    {
+                        if (room.roomId == roomId)
+                        {
+                            foundRoom = true;
+                        }
+                    }
+                }
+            }
+            if (!foundRoom)
+            {
+                usersWithBookedRooms[sID].Add(new(roomId, checkIn, checkOut));
+                return true;
+            }
         }
-        // check if same room exists in dictionary
         return false;
     }
 }
