@@ -501,3 +501,17 @@
 ##### Ska göra:
 - Kolla på ev. Fel
 - Försöka koppla användare till bokningar
+
+# 2025-12-18
+## Eftermiddag
+### Code Review
+#### Max & Pierino
+- Ändrat Schema
+- Ändrat DBQuery CreateTables
+- Ändrat InsertTables
+- DropTables
+- Booking class
+  - Book
+  - BookRoom
+  - CheckAvailability
+  - Overview
