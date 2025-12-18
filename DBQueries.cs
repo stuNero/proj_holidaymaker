@@ -172,7 +172,7 @@ static class DBQueries
                 id      INT PRIMARY KEY AUTO_INCREMENT,
                 name    VARCHAR(255) UNIQUE,
                 cuisine INT NOT NULL,
-                FOREIGN KEY (cuisine) REFERENCES cuisines(id) ON DELETE RESTRICT ON UPDATE CASCADE
+                FOREIGN KEY (cuisine) REFERENCES cuisines(id) ON DELETE CASCADE ON UPDATE CASCADE
             );
 
             CREATE TABLE IF NOT EXISTS cities
@@ -180,7 +180,7 @@ static class DBQueries
                 id      INT PRIMARY KEY AUTO_INCREMENT,
                 name    VARCHAR(255),
                 country INT NOT NULL,
-                FOREIGN KEY (country) REFERENCES countries(id) ON DELETE RESTRICT ON UPDATE CASCADE
+                FOREIGN KEY (country) REFERENCES countries(id) ON DELETE CASCADE ON UPDATE CASCADE
             );
 
             CREATE TABLE IF NOT EXISTS accommodations
@@ -189,7 +189,7 @@ static class DBQueries
                 name    VARCHAR(255),
                 city    INT NOT NULL,
                 type    ENUM('hotel', 'motel', 'hostel') DEFAULT 'hotel',
-                FOREIGN KEY (city) REFERENCES cities(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                FOREIGN KEY (city) REFERENCES cities(id) ON DELETE CASCADE ON UPDATE CASCADE,
                 UNIQUE (city, name)
             );
 
@@ -223,9 +223,9 @@ static class DBQueries
                 end_city   INT NOT NULL,
                 company    VARCHAR(255),
                 price      DECIMAL(10,2),
-                FOREIGN KEY (type) REFERENCES transport_types(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                FOREIGN KEY (start_city) REFERENCES cities(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                FOREIGN KEY (end_city) REFERENCES cities(id) ON DELETE RESTRICT ON UPDATE CASCADE
+                FOREIGN KEY (type) REFERENCES transport_types(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                FOREIGN KEY (start_city) REFERENCES cities(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                FOREIGN KEY (end_city) REFERENCES cities(id) ON DELETE CASCADE ON UPDATE CASCADE
             );
 
             CREATE TABLE IF NOT EXISTS orders
@@ -234,8 +234,8 @@ static class DBQueries
                 user        INT NOT NULL,
                 package     INT,
                 total_price DECIMAL(10,2),
-                FOREIGN KEY (user) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                FOREIGN KEY (package) REFERENCES packages(id) ON DELETE SET NULL ON UPDATE CASCADE,
+                FOREIGN KEY (user) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                FOREIGN KEY (package) REFERENCES packages(id) ON DELETE CASCADE ON UPDATE CASCADE,
                 UNIQUE (id, user)
             );
 
@@ -266,7 +266,7 @@ static class DBQueries
                 order_id       INT NOT NULL,
                 start_datetime DATETIME,
                 end_datetime   DATETIME,
-                FOREIGN KEY (room_id) REFERENCES rooms(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                FOREIGN KEY (room_id) REFERENCES rooms(id) ON DELETE CASCADE ON UPDATE CASCADE,
                 FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE,
                 UNIQUE (room_id, start_datetime, end_datetime)
             );
