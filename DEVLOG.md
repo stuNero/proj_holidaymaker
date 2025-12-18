@@ -515,3 +515,9 @@
   - BookRoom
   - CheckAvailability
   - Overview
+
+#### Amir
+- Countries feature, med Post för att lägga in nya länder, GetAll för att få ett lista av alla land i db:n,
+  GetById för att få ett land baserad på landets id, Delete för att radera ett land baserat på landets id:n, Put
+  för att updatera alla kolumner i 'countries' tabellen, och Patch för att updatera särkilda kolumner i tabellen.
+- Håller på att sätta admin spärr på methoder.
