@@ -96,4 +96,36 @@ static class Countries
     }
 
   }
+
+
+
+  // Put
+  public record Put_response(bool Success, string Message);
+  public record Put_Args(string Name, int Cuisine);
+  public static async Task<Put_response> Put(int id, Put_Args country, Config config)
+  {
+    Put_response? result = null;
+    string query = """
+    UPDATE countries 
+    SET name = @name, cuisine = @cuisine
+    WHERE id = @id
+    """;
+    var parameter = new MySqlParameter[]
+    {
+      new("@id", id),
+      new("@name", country.Name),
+      new("@cuisine", country.Cuisine)
+    };
+    int rows_updated = await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameter);
+    if (rows_updated == 0)
+    {
+      return result = new(false, $"Failed to update country with id [{id}]");
+    }
+    else
+    {
+      return result = new(true, $"Country with id [{id}] has been updated successfully!");
+    }
+  }
+
+
 }
