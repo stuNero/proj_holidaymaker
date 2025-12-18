@@ -1,3 +1,6 @@
+using System.Data.Common;
+using System.Runtime.Intrinsics.Wasm;
+
 namespace server;
 
 static class Countries
@@ -128,4 +131,48 @@ static class Countries
   }
 
 
+  // Patch
+  public record Patch_Response(bool Success, string Message);
+  public record Patch_Args(string? Name, int? Cuisine);
+  public static async Task<Patch_Response> Patch(int id, Patch_Args country, Config config)
+  {
+    List<string> updates = [];
+    var parameter = new List<MySqlParameter>
+    {
+      new("@id", id)
+    };
+
+    if (country.Name != null)
+    {
+      updates.Add("name = @name");
+      parameter.Add(new("@name", country.Name));
+    }
+
+    if (country.Cuisine.HasValue)
+    {
+      updates.Add("cuisine = @cuisine");
+      parameter.Add(new("@cuisine", country.Cuisine));
+    }
+
+    if (updates.Count == 0)
+    {
+      return new Patch_Response(false, "Nothing to patch");
+    }
+    string query = $"""
+    UPDATE countries
+    SET {string.Join(", ", updates)}
+    WHERE id = @id
+    """;
+
+    int rows_updated = await MySqlHelper.ExecuteNonQueryAsync(config.db, query, parameter.ToArray());
+
+    if (rows_updated == 0)
+    {
+      return new Patch_Response(false, $"Failed to patch country with id [{id}]");
+    }
+    else
+    {
+      return new Patch_Response(true, $"Country with id [{id}] has been patched successfully!");
+    }
+  }
 }
