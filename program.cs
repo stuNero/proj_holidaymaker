@@ -38,6 +38,7 @@ app.MapPost("/login", Login.Post);
 app.MapDelete("/login", Login.Delete);
 app.MapGet("/login", Login.Get);
 
+// Packages Functions
 app.MapGet("/packages", Packages.Get);
 app.MapGet("/packages/{id}", Packages.GetPackageDetails);
 app.MapPost("/packages", Packages.Post);
@@ -60,7 +61,7 @@ app.MapDelete("/countries/{id}", Countries.Delete);
 app.MapPut("/countries/{id}", Countries.Put);
 app.MapPatch("/countries/{id}", Countries.Patch);
 
-// Booking functions
+// Booking Functions
 app.MapGet("/bookings/availability", Booking.CheckAvailability);
 app.MapPost("/bookings/bookroom", Booking.BookRoom);
 app.MapPost("/bookings/book", Booking.Book);
