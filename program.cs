@@ -46,6 +46,7 @@ app.MapPatch("/cuisines/{id}", Cuisines.Patch);
 app.MapPost("/countries", Countries.Post);
 app.MapGet("/countries", Countries.GetAll);
 app.MapGet("/countries/{id}", Countries.Get);
+app.MapDelete("/countries/{id}", Countries.Delete);
 
 
 
