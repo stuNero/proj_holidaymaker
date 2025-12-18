@@ -168,14 +168,11 @@ static class Booking
             }
             foreach ((int key, List<Rooms_To_Book> list) in usersWithBookedRooms)
             {
-                if (key == sID)
+                foreach (Rooms_To_Book room in list)
                 {
-                    foreach (Rooms_To_Book room in list)
+                    if (room.roomId == roomId)
                     {
-                        if (room.roomId == roomId)
-                        {
-                            foundRoom = true;
-                        }
+                        foundRoom = true;
                     }
                 }
             }
