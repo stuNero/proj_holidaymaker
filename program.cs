@@ -13,6 +13,7 @@ builder.Services.AddSession(option =>
 Config config = new("server=127.0.0.1;uid=Holidaymaker;pwd=Holidaymaker;database=Holidaymaker;");
 builder.Services.AddSingleton(config);
 var app = builder.Build();
+
 app.UseSession();
 
 // DB functions
@@ -53,13 +54,12 @@ app.MapDelete("/countries/{id}", Countries.Delete);
 app.MapPut("/countries/{id}", Countries.Put);
 app.MapPatch("/countries/{id}", Countries.Patch);
 
-
-
 // Booking functions
 app.MapGet("/bookings/availability", Booking.CheckAvailability);
 app.MapPost("/bookings/bookroom", Booking.BookRoom);
 app.MapPost("/bookings/book", Booking.Book);
-// app.MapGet("/bookings/overview", Booking.Overview);
+app.MapGet("/bookings/overview", Booking.Overview);
+
 async Task db_reset_to_default()
 {
   await MySqlHelper.ExecuteNonQueryAsync(config.db, DBQueries.DropAllTable());
