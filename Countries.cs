@@ -10,7 +10,7 @@ static class Countries
   public static async Task Post(Post_Args country, Config config)
   {
     string query = """
-    INSERT INTO countries (name, cuisine) 
+    INSERT IGNORE INTO countries (name, cuisine) 
     VALUES (@name, @cuisine)
     """;
     var parameter = new MySqlParameter[]
