@@ -449,16 +449,75 @@
 - hjälpa till med booking feature
 
 ### Code Review
-#### Gått igenom: 
-##### Accommodations Features (Jacob/Max)
+#### Accommodations Features (Jacob/Max)
 - Patch
 - Delete
 - GetRooms
 - GetAmenities
-##### Transport Features (Tanya)
+#### Transport Features (Tanya)
 - Get (WIP)
 - Delete (WIP)
-##### Login Features (Amir)
+#### Login Features (Amir)
 - Get
 - Post
 - Delete
+
+## Eftermiddag
+### Code Review
+#### Cuisines Features (Amir)
+- Post
+- Get
+#### Package Features (Pierino)
+- Post, med relaterade funktioner
+- Ändrat Constraints i CRUD
+#### Accommodations Features (Jacob)
+- Put 
+#### Rooms Features (Jacob)
+- Get
+- GetProperties
+## Notes
+- Hur kopplar man accommodations och transport till en package i en enda metod
+- Dubbelchecka schema
+
+# 2025-12-17
+## Morgon
+### Standup
+#### Amir (ej närvarande)
+##### Har gjort:
+- Cuisines features
+#### Pierino & Max
+##### Har gjort:
+- Gjorde om databas schemat, tog bort packages, transport och bookings för tillfället
+- Skrev kod för Booking klassen
+- Mycket brainstorming
+##### Ska göra till middag:
+- Göra klart CheckAvailability
+- Funktion för att boka rum
+## Eftermiddag
+#### Pierino & Max
+##### Har Gjort:
+- Gjort klart CheckAvailability
+- Gjort klart BookRoom
+##### Ska göra:
+- Kolla på ev. Fel
+- Försöka koppla användare till bokningar
+
+# 2025-12-18
+## Eftermiddag
+### Code Review
+#### Max & Pierino
+- Ändrat Schema
+- Ändrat DBQuery CreateTables
+- Ändrat InsertTables
+- DropTables
+- Booking class
+  - Book
+  - BookRoom
+  - CheckAvailability
+  - Overview
+
+#### Amir
+- Countries feature, med Post för att lägga in nya länder, GetAll för att få ett lista av alla land i db:n,
+  GetById för att få ett land baserad på landets id, Delete för att radera ett land baserat på landets id:n, Put
+  för att updatera alla kolumner i 'countries' tabellen, och Patch för att updatera särkilda kolumner i tabellen.
+- Håller på att sätta admin spärr på methoder.
